@@ -8,11 +8,6 @@
 #define _pinFanKitchen 6
 #define _pinFanBed 7
 
-// FANS SHOULD USE PIN PAIRS IF CHANGING PWM FREQ
-// *   - Pins 5 and 6 are paired on timer0
-// *   - Pins 9 and 10 are paired on timer1
-// *   - Pins 3 and 11 are paired on timer2
-
 Inbound _serialInput;
 Bun _buttonTestLights(38);
 
@@ -40,14 +35,10 @@ void setup()
   pinMode(_pinLightKitchen, OUTPUT);
   pinMode(_pinLightOffice, OUTPUT);
   pinMode(_pinLightBed, OUTPUT);
+
+  setFanPwmFreq();
   pinMode(_pinFanKitchen, OUTPUT);
   pinMode(_pinFanBed, OUTPUT);
-
-  // Set higher PWM frequency for fan so stop audible motor whine.
-  // Note that the base frequency for pins 5 and 6 is 62500 Hz
-  // The divisors available on pins 5, 6, 9 and 10 are: 1, 8, 64, 256, 1024.
-  // Source: https://playground.arduino.cc/Code/PwmFrequency
-  setPwmFrequency(_pinFanKitchen, 8);
 
   Serial.begin(9600);
   Serial.println("Enter data in this style: variable = value;");
@@ -63,6 +54,43 @@ void loop()
   _serialInput.update();
   doTestLights();
   delay(30);
+}
+
+void setFanPwmFreq()
+{
+  /* Source: https://forum.arduino.cc/index.php?topic=72092.0
+   * Set higher PWM frequency for fan so stop audible motor whine.
+   * FANS SHOULD USE PIN PAIRS IF CHANGING PWM FREQ
+   * On Arduino Mega 2560:
+   * timer 0 (controls pin 13, 4);
+   * timer 1 (controls pin 12, 11);
+   * timer 2 (controls pin 10, 9);
+   * timer 3 (controls pin 5, 3, 2);
+   * timer 4 (controls pin 8, 7, 6);
+   * 'TCCRnB' is the timer register id (or similar) where 'n' = timer # above.
+   * eg: 'TCCR4B' is for pins 8, 7, 6.
+  */
+  int myEraser = 7; // this is 111 in binary and is used as an eraser
+  TCCR4B &= ~myEraser; // this operation (AND plus NOT),  set the three bits in TCCR2B to 0
+
+  /* TCCR1B, TCCR2B, TCCR3B, TCCR4B
+   * prescaler = 1 ---> PWM frequency is 31000 Hz
+   * prescaler = 2 ---> PWM frequency is 4000 Hz
+   * prescaler = 3 ---> PWM frequency is 490 Hz (default value)
+   * prescaler = 4 ---> PWM frequency is 120 Hz
+   * prescaler = 5 ---> PWM frequency is 30 Hz
+   * prescaler = 6 ---> PWM frequency is <20 Hz
+   * 
+   * TCCR0B. Note: if altering timer 0 delay() millis() etc will change speed.
+   * prescaler = 1 ---> PWM frequency is 62000 Hz
+   * prescaler = 2 ---> PWM frequency is 7800 Hz
+   * prescaler = 3 ---> PWM frequency is 980 Hz (default value)
+   * prescaler = 4 ---> PWM frequency is 250 Hz
+   * prescaler = 5 ---> PWM frequency is 60 Hz
+   * prescaler = 6 ---> PWM frequency is <20 Hz
+   */
+  int myPrescaler = 1; // this could be a number in [1 , 6].
+  TCCR4B |= myPrescaler; //this operation (OR), replaces the last three bits in TCCR2B with our new value 011
 }
 
 void handleFloatSet(String input, float value)
@@ -249,36 +277,5 @@ void doTestLights()
     }
 
     setCurrentState();
-  }
-}
-
-void setPwmFrequency(int pin, int divisor) {
-  byte mode;
-  if(pin == 5 || pin == 6 || pin == 9 || pin == 10) {
-    switch(divisor) {
-      case 1: mode = 0x01; break;
-      case 8: mode = 0x02; break;
-      case 64: mode = 0x03; break;
-      case 256: mode = 0x04; break;
-      case 1024: mode = 0x05; break;
-      default: return;
-    }
-    if(pin == 5 || pin == 6) {
-      TCCR0B = TCCR0B & 0b11111000 | mode;
-    } else {
-      TCCR1B = TCCR1B & 0b11111000 | mode;
-    }
-  } else if(pin == 3 || pin == 11) {
-    switch(divisor) {
-      case 1: mode = 0x01; break;
-      case 8: mode = 0x02; break;
-      case 32: mode = 0x03; break;
-      case 64: mode = 0x04; break;
-      case 128: mode = 0x05; break;
-      case 256: mode = 0x06; break;
-      case 1024: mode = 0x07; break;
-      default: return;
-    }
-    TCCR2B = TCCR2B & 0b11111000 | mode;
   }
 }
