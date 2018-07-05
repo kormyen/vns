@@ -8,6 +8,11 @@
 #define _pinFanKitchen 6
 #define _pinFanBed 7
 
+// FANS SHOULD USE PIN PAIRS IF CHANGING PWM FREQ
+// *   - Pins 5 and 6 are paired on timer0
+// *   - Pins 9 and 10 are paired on timer1
+// *   - Pins 3 and 11 are paired on timer2
+
 Inbound _serialInput;
 Bun _buttonTestLights(38);
 
@@ -37,6 +42,12 @@ void setup()
   pinMode(_pinLightBed, OUTPUT);
   pinMode(_pinFanKitchen, OUTPUT);
   pinMode(_pinFanBed, OUTPUT);
+
+  // Set higher PWM frequency for fan so stop audible motor whine.
+  // Note that the base frequency for pins 5 and 6 is 62500 Hz
+  // The divisors available on pins 5, 6, 9 and 10 are: 1, 8, 64, 256, 1024.
+  // Source: https://playground.arduino.cc/Code/PwmFrequency
+  setPwmFrequency(_pinFanKitchen, 8);
 
   Serial.begin(9600);
   Serial.println("Enter data in this style: variable = value;");
@@ -80,6 +91,18 @@ void handleFloatSet(String input, float value)
     Serial.println(value);
     _stateLightBedValue = value;
   }
+  else if (input == "fanKitchen")
+  {
+    Serial.print("SET KITCHEN FAN TO ");
+    Serial.println(value);
+    _stateFanKitchenValue = value;
+  }
+  else if (input == "fanBed")
+  {
+    Serial.print("SET KITCHEN FAN TO ");
+    Serial.println(value);
+    _stateFanKitchenValue = value;
+  }
   else
   {
     Serial.print("Not recognized: ");
@@ -114,6 +137,18 @@ void handleBoolSet(String input, bool value)
     Serial.print("SET BED LIGHTS TO ");
     Serial.println(value);
     _stateLightBedEnabled = value;
+  }
+  else if (input == "fanKitchen")
+  {
+    Serial.print("SET KITCHEN FAN TO ");
+    Serial.println(value);
+    _stateFanKitchenEnabled = value;
+  }
+  else if (input == "fanBed")
+  {
+    Serial.print("SET KITCHEN FAN TO ");
+    Serial.println(value);
+    _stateFanKitchenEnabled = value;
   }
   else
   {
@@ -214,5 +249,36 @@ void doTestLights()
     }
 
     setCurrentState();
+  }
+}
+
+void setPwmFrequency(int pin, int divisor) {
+  byte mode;
+  if(pin == 5 || pin == 6 || pin == 9 || pin == 10) {
+    switch(divisor) {
+      case 1: mode = 0x01; break;
+      case 8: mode = 0x02; break;
+      case 64: mode = 0x03; break;
+      case 256: mode = 0x04; break;
+      case 1024: mode = 0x05; break;
+      default: return;
+    }
+    if(pin == 5 || pin == 6) {
+      TCCR0B = TCCR0B & 0b11111000 | mode;
+    } else {
+      TCCR1B = TCCR1B & 0b11111000 | mode;
+    }
+  } else if(pin == 3 || pin == 11) {
+    switch(divisor) {
+      case 1: mode = 0x01; break;
+      case 8: mode = 0x02; break;
+      case 32: mode = 0x03; break;
+      case 64: mode = 0x04; break;
+      case 128: mode = 0x05; break;
+      case 256: mode = 0x06; break;
+      case 1024: mode = 0x07; break;
+      default: return;
+    }
+    TCCR2B = TCCR2B & 0b11111000 | mode;
   }
 }
