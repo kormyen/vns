@@ -8,16 +8,16 @@
 #define _pinFanKitchen 6
 #define _pinFanBed 7
 
-Inbound _serialInput = Inbound();
+Inbound _serialInput;
 Bun _buttonTestLights(38);
 
 // State values stored as bool and float to remember prev value when toggled.
-bool _stateLightMainEnabled = false;
-float _stateLightMainValue = 1.0;
+bool _stateLightMainEnabled = true;
+float _stateLightMainValue = 255.0;
 bool _stateLightKitchenEnabled = false;
 float _stateLightKitchenValue = 1.0;
-bool _stateLightOfficeEnabled = false;
-float _stateLightOfficeValue = 1.0;
+bool _stateLightOfficeEnabled = true;
+float _stateLightOfficeValue = 255.0;
 bool _stateLightBedEnabled = false;
 float _stateLightBedValue = 1.0;
 
@@ -43,6 +43,8 @@ void setup()
   Serial.println("eg: lightMain = 50.5;");
   Serial.println("eg: lightMain = true;");
   Serial.println();
+
+  setCurrentState();
 }
 
 void loop()
