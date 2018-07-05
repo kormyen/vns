@@ -5,8 +5,12 @@
 #define _pinLightKitchen 3
 #define _pinLightOffice 4
 #define _pinLightBed 5
+
+// Fans should be on pins 6, 7, and/or 8 due to PWM freq adjustments to stop audible motor whine.
 #define _pinFanKitchen 6
 #define _pinFanBed 7
+
+#define _fanMinValue 170
 
 Inbound _serialInput;
 Bun _buttonTestLights(38);
@@ -58,7 +62,7 @@ void loop()
 
 void setFanPwmFreq()
 {
-  /* Source: https://forum.arduino.cc/index.php?topic=72092.0
+  /* Source: valerio_sperati https://forum.arduino.cc/index.php?topic=72092.0
    * Set higher PWM frequency for fan so stop audible motor whine.
    * FANS SHOULD USE PIN PAIRS IF CHANGING PWM FREQ
    * On Arduino Mega 2560:
@@ -123,13 +127,13 @@ void handleFloatSet(String input, float value)
   {
     Serial.print("SET KITCHEN FAN TO ");
     Serial.println(value);
-    _stateFanKitchenValue = value;
+    _stateFanKitchenValue = map(value, 0, 255, _fanMinValue, 255);
   }
   else if (input == "fanBed")
   {
-    Serial.print("SET KITCHEN FAN TO ");
+    Serial.print("SET BED FAN TO ");
     Serial.println(value);
-    _stateFanKitchenValue = value;
+    _stateFanBedValue = map(value, 0, 255, _fanMinValue, 255);
   }
   else
   {
