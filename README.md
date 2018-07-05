@@ -7,7 +7,7 @@
 <img src='https://raw.githubusercontent.com/kormyen/VNS/master/000.jpg' width="600"/>
 
 ## History
-- 12018-07-05 : PDU main light control active.
+- 12018-07-05 : PDU main and office light control activated.
 
 ## How I justified this madness:
 - I "require" multiple switch panels for the lights. 
