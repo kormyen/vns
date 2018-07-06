@@ -9,10 +9,5 @@
 ## History
 - 12018-07-05 : PDU main and office light control activated.
 
-## How I justified this madness:
-- I "require" multiple switch panels for the lights. 
-- I dislike when toggle switches get out of sync "so I'll use momentum buttons!". 
-- ...Multiple momentum buttons as toggle switches done in just hardware/wiring seems quite complex... "surely this would be easier in software!". 
-- Every light is also dimable... "if I do it in software I can just use a single dimmer per switch panel and switch light group some how~". 
-- Arduino or similar would also allow for easy(tm) future expansion like web control, phone control, monitoring etc.
-- "It's the obvious choice!"
+## Why
+I wanted this initially for 7 dimmable light sets and 2 speed adjustable fans controlled by two switch panels each with only one dimmer module rather than a individual dimmer for every light set and fan per switch panel. Doing it in software seemed more potentially expandable at a later date and most importantly simpler for me than hardware 'flip-flop' stuff and other more complex wiring.
