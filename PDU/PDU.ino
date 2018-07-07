@@ -178,9 +178,9 @@ void handleBoolSet(String input, bool value)
   }
   else if (input == "fanBed")
   {
-    Serial.print("SET KITCHEN FAN TO ");
+    Serial.print("SET BED FAN TO ");
     Serial.println(value);
-    _stateFanKitchenEnabled = value;
+    _stateFanBedEnabled = value;
   }
   else
   {
