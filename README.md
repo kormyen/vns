@@ -5,6 +5,7 @@
 [Power Distribution Unit (PDU)](https://github.com/kormyen/VNS/tree/master/PDU)
 
 <img src='https://raw.githubusercontent.com/kormyen/VNS/master/000.jpg' width="600"/>
+<img src='https://raw.githubusercontent.com/kormyen/VNS/master/001.jpg' width="600"/>
 
 ## History
 - 12018-07-05 : PDU main and office light control activated.
