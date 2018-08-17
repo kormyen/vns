@@ -15,5 +15,5 @@ Visit http://localhost:3000/
 #### Dependencies
 
 - Runtime: [Node.js](https://nodejs.org/en/)
-- Web UI: [express](https://expressjs.com/)
-- Arduino communication: [serialport](https://node-serialport.github.io/node-serialport/)
+- Web UI: [Express](https://expressjs.com/)
+- Arduino communication: [Serialport](https://node-serialport.github.io/node-serialport/)
