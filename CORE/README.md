@@ -2,7 +2,7 @@
 
 Node.js app running on Raspberry Pi Zero W
 
-Receives input from web UI and Arduino control panel(s), sends commands to [__Power__ Distribution](https://github.com/kormyen/VNS/tree/master/POWER)
+Receives input from web UI and/or CONTROL panel(s), sends commands to [POWER](https://github.com/kormyen/VNS/tree/master/POWER)
 
 #### Development
 ```
