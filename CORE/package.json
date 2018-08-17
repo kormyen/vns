@@ -1,0 +1,16 @@
+{
+  "name": "VNS CORE",
+  "version": "0.0.1",
+  "description": "Core control routing system for simple 'Tiny House' IoT",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "kormyen",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "serialport": "^6.2.2"
+  }
+}
