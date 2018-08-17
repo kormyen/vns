@@ -21,9 +21,9 @@ float _stateLightMainValue = 255.0;
 bool _stateLightKitchenEnabled = false;
 float _stateLightKitchenValue = 1.0;
 bool _stateLightOfficeEnabled = true;
-float _stateLightOfficeValue = 1.0;
-bool _stateLightBedEnabled = false;
-float _stateLightBedValue = 1.0;
+float _stateLightOfficeValue = 50.0;
+bool _stateLightBedEnabled = true;
+float _stateLightBedValue = 150.0;
 
 bool _stateFanKitchenEnabled = false;
 float _stateFanKitchenValue = 1.0;
