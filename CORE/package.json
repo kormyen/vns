@@ -1,5 +1,5 @@
 {
-  "name": "VNS CORE",
+  "name": "vnscore",
   "version": "0.0.1",
   "description": "Core control routing system for simple 'Tiny House' IoT",
   "main": "server.js",
