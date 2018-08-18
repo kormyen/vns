@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    
+    <body>
+        <div id="title">MAIN</div>
+        <button id='buttonMainOn'>On</button>
+        <button id='buttonMainOff'>Off</button>
+
+        <div id="title">OFFICE</div>
+        <button id='buttonOfficeOn'>On</button>
+        <button id='buttonOfficeOff'>Off</button>
+
+        <div id="title">BED</div>
+        <button id='buttonBedOn'>On</button>
+        <button id='buttonBedOff'>Off</button>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+          $(function () {
+            var socket = io();
+
+            $('#buttonMainOn').click(function() { socket.emit('command', 'light main true'); });
+            $('#buttonMainOff').click(function() { socket.emit('command', 'light main false'); });
+
+            $('#buttonOfficeOn').click(function() { socket.emit('command', 'light office true'); });
+            $('#buttonOfficeOff').click(function() { socket.emit('command', 'light office false'); });
+
+            $('#buttonBedOn').click(function() { socket.emit('command', 'light bed true'); });
+            $('#buttonBedOff').click(function() { socket.emit('command', 'light bed false'); });
+          });
+        </script>
+    </body>
+</html>

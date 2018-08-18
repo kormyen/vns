@@ -1,6 +1,16 @@
 var serialport = require('serialport');
-var express = require('express');
-var app = express();
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+// WEB
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
+});
+
+http.listen(3000, '0.0.0.0', function(){
+  console.log('listening on *:3000');
+});
 
 // SERIAL
 var receivedData = "";
@@ -22,48 +32,34 @@ port.on('error', function(err)
 
 // port.on('open', openPort);
  
-function openPort()
-{
-  console.log('port open');
+// function openPort()
+// {
+//   console.log('port open');
   
-  port.on('data', function(data)
+//   port.on('data', function(data)
+//   {
+//     console.log(data.toString());
+//   });
+// }
+
+// SOCKETIO
+io.on('connection', function(socket)
+{
+  console.log('a user connected');
+
+  socket.on('disconnect', function()
   {
-    console.log(data.toString());
+    console.log('user disconnected');
   });
-}
+  socket.on('command', function(msg)
+  {
+    console.log('command rec: ' + msg);
 
-// WEB
-app.use(express.static(__dirname + '/public')); // exposes index.html, per below
-
-app.get('/mainon', function(req, res)
-{
-  port.write('lightMain = true;');
-  console.log('MAIN ON');
+    if (msg == 'light main true') { port.write('lightMain = true;'); }
+    else if (msg == 'light main false') { port.write('lightMain = false;'); }
+    else if (msg == 'light office true') { port.write('lightOffice = true;'); }
+    else if (msg == 'light office false') { port.write('lightOffice = false;'); }
+    else if (msg == 'light bed true') { port.write('lightBed = true;'); }
+    else if (msg == 'light bed false') { port.write('lightBed = false;'); }
+  });
 });
-app.get('/mainoff', function(req, res)
-{
-  port.write('lightMain = false;');
-  console.log('MAIN OFF');
-});
-app.get('/officeon', function(req, res)
-{
-  port.write('lightOffice = true;');
-  console.log('OFFICE ON');
-});
-app.get('/officeoff', function(req, res)
-{
-  port.write('lightOffice = false;');
-  console.log('OFFICE OFF');
-});
-app.get('/bedon', function(req, res)
-{
-  port.write('lightBed = true;');
-  console.log('BED ON');
-});
-app.get('/bedoff', function(req, res)
-{
-  port.write('lightBed = false;');
-  console.log('BED OFF');
-});
-
-app.listen(3000, () => console.log('Server listening on port 3000'));
