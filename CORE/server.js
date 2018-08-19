@@ -30,18 +30,6 @@ port.on('error', function(err)
   console.log('Error: ', err.message);
 })
 
-// port.on('open', openPort);
- 
-// function openPort()
-// {
-//   console.log('port open');
-  
-//   port.on('data', function(data)
-//   {
-//     console.log(data.toString());
-//   });
-// }
-
 // SOCKETIO
 io.on('connection', function(socket)
 {
@@ -51,15 +39,19 @@ io.on('connection', function(socket)
   {
     console.log('user disconnected');
   });
-  socket.on('command', function(msg)
+  socket.on('lightToggle', function(data)
   {
-    console.log('command rec: ' + msg);
-
-    if (msg == 'light main true') { port.write('lightMain = true;'); }
-    else if (msg == 'light main false') { port.write('lightMain = false;'); }
-    else if (msg == 'light office true') { port.write('lightOffice = true;'); }
-    else if (msg == 'light office false') { port.write('lightOffice = false;'); }
-    else if (msg == 'light bed true') { port.write('lightBed = true;'); }
-    else if (msg == 'light bed false') { port.write('lightBed = false;'); }
+    console.log('Toggle ' + data.key + ' light to ' + data.info);
+    port.write('light' + data.key.capitalize() + ' = ' + data.info + ';');
+  });
+  socket.on('lightBrightness', function(data)
+  {
+    console.log('Set brightness of ' + data.key + ' light to ' + data.info);
+    port.write('light' + data.key.capitalize() + ' = ' + data.info + ';');
   });
 });
+
+String.prototype.capitalize = function() 
+{
+  return this.charAt(0).toUpperCase() + this.slice(1);
+}

@@ -1,35 +1,47 @@
 <html>
-    <head>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    </head>
-    
     <body>
         <div id="title">MAIN</div>
-        <button id='buttonMainOn'>On</button>
-        <button id='buttonMainOff'>Off</button>
+        <button id='lMainOn'>On</button>
+        <button id='lMainOff'>Off</button>
+        <div class="slidecontainer">
+          <input type="range" min="1" max="255" value="255" class="slider" id="lMainB">
+        </div>
 
         <div id="title">OFFICE</div>
-        <button id='buttonOfficeOn'>On</button>
-        <button id='buttonOfficeOff'>Off</button>
+        <button id='lOfficeOn'>On</button>
+        <button id='lOfficeOff'>Off</button>
+        <div class="slidecontainer">
+          <input type="range" min="1" max="255" value="255" class="slider" id="lOfficeB">
+        </div>
 
         <div id="title">BED</div>
-        <button id='buttonBedOn'>On</button>
-        <button id='buttonBedOff'>Off</button>
+        <button id='lBedOn'>On</button>
+        <button id='lBedOff'>Off</button>
+        <div class="slidecontainer">
+          <input type="range" min="1" max="255" value="255" class="slider" id="lBedB">
+        </div>
 
-        <script src="/socket.io/socket.io.js"></script>
+        <script src="/socket.io/socket.io.js"></script> <!-- automatically added -->
         <script>
-          $(function () {
+            function data(key, info)
+            {
+               this.key = key;
+               this.info = info;
+            }
+            
             var socket = io();
 
-            $('#buttonMainOn').click(function() { socket.emit('command', 'light main true'); });
-            $('#buttonMainOff').click(function() { socket.emit('command', 'light main false'); });
+            document.getElementById("lMainOn").onclick = function() {socket.emit('lightToggle', new data('main', true));}
+            document.getElementById("lMainOff").onclick = function() {socket.emit('lightToggle', new data('main', false));}
+            document.getElementById("lMainB").oninput = function() { socket.emit('lightBrightness', new data('main', this.value)); }
 
-            $('#buttonOfficeOn').click(function() { socket.emit('command', 'light office true'); });
-            $('#buttonOfficeOff').click(function() { socket.emit('command', 'light office false'); });
+            document.getElementById("lOfficeOn").onclick = function() {socket.emit('lightToggle', new data('office', true));}
+            document.getElementById("lOfficeOff").onclick = function() {socket.emit('lightToggle', new data('office', false));}
+            document.getElementById("lOfficeB").oninput = function() { socket.emit('lightBrightness', new data('office', this.value)); }
 
-            $('#buttonBedOn').click(function() { socket.emit('command', 'light bed true'); });
-            $('#buttonBedOff').click(function() { socket.emit('command', 'light bed false'); });
-          });
+            document.getElementById("lBedOn").onclick = function() {socket.emit('lightToggle', new data('bed', true));}
+            document.getElementById("lBedOff").onclick = function() {socket.emit('lightToggle', new data('bed', false));}
+            document.getElementById("lBedB").oninput = function() { socket.emit('lightBrightness', new data('bed', this.value)); }
         </script>
     </body>
 </html>
