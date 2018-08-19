@@ -3,6 +3,8 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var _pduReady = true;
+
 // WEB
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -17,37 +19,57 @@ var receivedData = "";
 var port = new serialport('COM6', 
 {
   baudRate: 9600,
-  // parser: new SerialPort.parsers.Readline('\n'),
+  // parser: new serialport.parsers.Readline("\n")
   // defaults for Arduino serial communication
-  dataBits: 8, 
-  parity: 'none', 
-  stopBits: 1, 
-  flowControl: false 
+  // dataBits: 8, 
+  // parity: 'none', 
+  // stopBits: 1, 
+  // flowControl: false 
 });
-
 port.on('error', function(err)
 {
   console.log('Error: ', err.message);
 })
 
+port.on('open', function()
+{
+  port.on('data', function(response)
+  {
+    if (response.toString().trim() == "y")
+    {
+      _pduReady = true;
+    }
+    else if (response.toString().trim() == "n")
+    {
+      console.log('BROKE');
+    }
+  });
+});
+
 // SOCKETIO
 io.on('connection', function(socket)
 {
-  console.log('a user connected');
+  console.log('connection');
 
   socket.on('disconnect', function()
   {
-    console.log('user disconnected');
+    console.log('disconnection');
   });
   socket.on('lightToggle', function(data)
   {
-    console.log('Toggle ' + data.key + ' light to ' + data.info);
-    port.write('light' + data.key.capitalize() + ' = ' + data.info + ';');
+    if (_pduReady)
+    {
+      _pduReady = false;
+      port.write('light' + data.key.capitalize() + ' = ' + data.info + ';');
+    }
   });
   socket.on('lightBrightness', function(data)
   {
-    console.log('Set brightness of ' + data.key + ' light to ' + data.info);
-    port.write('light' + data.key.capitalize() + ' = ' + data.info + ';');
+    if (_pduReady)
+    {
+      _pduReady = false;
+      port.write('light' + data.key.capitalize() + ' = ' + data.info + ';');
+    }
   });
 });
 

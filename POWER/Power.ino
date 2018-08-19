@@ -45,10 +45,7 @@ void setup()
   pinMode(_pinFanBed, OUTPUT);
 
   Serial.begin(9600);
-  Serial.println("Enter data in this style: variable = value;");
-  Serial.println("eg: lightMain = 50.5;");
-  Serial.println("eg: lightMain = true;");
-  Serial.println();
+  response(true);
 
   setCurrentState();
 }
@@ -58,6 +55,18 @@ void loop()
   _serialInput.update();
   doTestLights();
   delay(30);
+}
+
+void response(bool value)
+{
+  if (value)
+  {
+    Serial.println("y");
+  }
+  else
+  {
+    Serial.println("n");
+  }
 }
 
 void setFanPwmFreq()
@@ -101,94 +110,70 @@ void handleFloatSet(String input, float value)
 {
   if (input == "lightMain")
   {
-    Serial.print("SET MAIN LIGHTS TO ");
-    Serial.println(value);
     _stateLightMainValue = value;
   }
   else if (input == "lightKitchen")
   {
-    Serial.print("SET KITCHEN LIGHTS TO ");
-    Serial.println(value);
     _stateLightKitchenValue = value;
   }
   else if (input == "lightOffice")
   {
-    Serial.print("SET OFFICE LIGHTS TO ");
-    Serial.println(value);
     _stateLightOfficeValue = value;
   }
   else if (input == "lightBed")
   {
-    Serial.print("SET BED LIGHTS TO ");
-    Serial.println(value);
     _stateLightBedValue = value;
   }
   else if (input == "fanKitchen")
   {
-    Serial.print("SET KITCHEN FAN TO ");
-    Serial.println(value);
     _stateFanKitchenValue = map(value, 0, 255, _fanMinValue, 255);
   }
   else if (input == "fanBed")
   {
-    Serial.print("SET BED FAN TO ");
-    Serial.println(value);
     _stateFanBedValue = map(value, 0, 255, _fanMinValue, 255);
   }
   else
   {
-    Serial.print("Not recognized: ");
-    Serial.println(input);
+    response(false);
   }
 
   setCurrentState();
+  response(true);
 }
 
 void handleBoolSet(String input, bool value)
 {
   if (input == "lightMain")
   {
-    Serial.print("SET MAIN LIGHTS TO ");
-    Serial.println(value);
     _stateLightMainEnabled = value;
   }
   else if (input == "lightKitchen")
   {
-    Serial.print("SET KITCHEN LIGHTS TO ");
-    Serial.println(value);
     _stateLightKitchenEnabled = value;
   }
   else if (input == "lightOffice")
   {
-    Serial.print("SET OFFICE LIGHTS TO ");
-    Serial.println(value);
     _stateLightOfficeEnabled = value;
   }
   else if (input == "lightBed")
   {
-    Serial.print("SET BED LIGHTS TO ");
-    Serial.println(value);
     _stateLightBedEnabled = value;
   }
   else if (input == "fanKitchen")
   {
-    Serial.print("SET KITCHEN FAN TO ");
-    Serial.println(value);
     _stateFanKitchenEnabled = value;
   }
   else if (input == "fanBed")
   {
-    Serial.print("SET BED FAN TO ");
-    Serial.println(value);
     _stateFanBedEnabled = value;
   }
   else
   {
-    Serial.print("Not recognized: ");
-    Serial.println(input);
+    response(false);
   }
 
   setCurrentState();
+  response(true);
 }
 
 void setCurrentState()
