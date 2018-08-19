@@ -45,7 +45,6 @@ void setup()
   pinMode(_pinFanBed, OUTPUT);
 
   Serial.begin(9600);
-  response(true);
 
   setCurrentState();
 }

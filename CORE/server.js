@@ -4,14 +4,15 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 var _pduReady = true;
+var _lastSent = false;
+var _currentRequest = '';
 
 // WEB
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
-
 http.listen(3000, '0.0.0.0', function(){
-  console.log('listening on *:3000');
+  console.log('Listening on port 3000');
 });
 
 // SERIAL
@@ -30,7 +31,6 @@ port.on('error', function(err)
 {
   console.log('Error: ', err.message);
 })
-
 port.on('open', function()
 {
   port.on('data', function(response)
@@ -38,6 +38,10 @@ port.on('open', function()
     if (response.toString().trim() == "y")
     {
       _pduReady = true;
+      if (_lastSent == false)
+      {
+        sendCurrentRequest();
+      }
     }
     else if (response.toString().trim() == "n")
     {
@@ -57,21 +61,36 @@ io.on('connection', function(socket)
   });
   socket.on('lightToggle', function(data)
   {
+    _currentRequest = 'light' + data.key.capitalize() + ' = ' + data.info + ';';
     if (_pduReady)
     {
-      _pduReady = false;
-      port.write('light' + data.key.capitalize() + ' = ' + data.info + ';');
+      sendCurrentRequest();
+    }
+    else
+    {
+      _lastSent = false;
     }
   });
   socket.on('lightBrightness', function(data)
   {
+    _currentRequest = 'light' + data.key.capitalize() + ' = ' + data.info + ';';
     if (_pduReady)
     {
-      _pduReady = false;
-      port.write('light' + data.key.capitalize() + ' = ' + data.info + ';');
+      sendCurrentRequest();
+    }
+    else
+    {
+      _lastSent = false;
     }
   });
 });
+
+sendCurrentRequest = function()
+{
+  _pduReady = false;
+  port.write(_currentRequest);
+  _lastSent = true;
+}
 
 String.prototype.capitalize = function() 
 {
