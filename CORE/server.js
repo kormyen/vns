@@ -70,23 +70,10 @@ io.on('connection', function(socket)
   {
     console.log(socket.request.connection.remoteAddress + ' - ' + socket.id + ' - exit');
   });
-  socket.on('lightToggle', function(data)
+  socket.on('set', function(data)
   {
-    _currentRequest = 'light' + data.key.capitalize() + ' = ' + data.info + ';';
-    state['l'+data.key.capitalize()] = data.info;
-    if (_pduReady)
-    {
-      sendCurrentRequest();
-    }
-    else
-    {
-      _lastSent = false;
-    }
-  });
-  socket.on('lightBrightness', function(data)
-  {
-    _currentRequest = 'light' + data.key.capitalize() + ' = ' + data.info + ';';
-    state['l'+data.key.capitalize()+'B'] = data.info;
+    _currentRequest = data.key + ' = ' + data.info + ';';
+    state[data.key] = data.info;
     if (_pduReady)
     {
       sendCurrentRequest();
@@ -104,9 +91,4 @@ sendCurrentRequest = function()
   port.write(_currentRequest);
   _lastSent = true;
   io.sockets.emit('state', state);
-}
-
-String.prototype.capitalize = function() 
-{
-  return this.charAt(0).toUpperCase() + this.slice(1);
 }

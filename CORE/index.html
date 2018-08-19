@@ -43,15 +43,15 @@
                 document.getElementById("lBedState").innerHTML = data.lBed;
             });
 
-            document.getElementById("lMainOn").onclick = function() { socket.emit('lightToggle', new data('main', true)); }
-            document.getElementById("lMainOff").onclick = function() { socket.emit('lightToggle', new data('main', false)); }
-            document.getElementById("lMainB").oninput = function() { socket.emit('lightBrightness', new data('main', this.value)); }
-            document.getElementById("lOfficeOn").onclick = function() { socket.emit('lightToggle', new data('office', true)); }
-            document.getElementById("lOfficeOff").onclick = function() { socket.emit('lightToggle', new data('office', false)); }
-            document.getElementById("lOfficeB").oninput = function() { socket.emit('lightBrightness', new data('office', this.value)); }
-            document.getElementById("lBedOn").onclick = function() { socket.emit('lightToggle', new data('bed', true)); }
-            document.getElementById("lBedOff").onclick = function() { socket.emit('lightToggle', new data('bed', false)); }
-            document.getElementById("lBedB").oninput = function() { socket.emit('lightBrightness', new data('bed', this.value)); }
+            document.getElementById("lMainOn").onclick = function() { socket.emit('set', new data('lMain', true)); }
+            document.getElementById("lMainOff").onclick = function() { socket.emit('set', new data('lMain', false)); }
+            document.getElementById("lMainB").oninput = function() { socket.emit('set', new data('lMainB', this.value)); }
+            document.getElementById("lOfficeOn").onclick = function() { socket.emit('set', new data('lOffice', true)); }
+            document.getElementById("lOfficeOff").onclick = function() { socket.emit('set', new data('lOffice', false)); }
+            document.getElementById("lOfficeB").oninput = function() { socket.emit('set', new data('lOfficeB', this.value)); }
+            document.getElementById("lBedOn").onclick = function() { socket.emit('set', new data('lBed', true)); }
+            document.getElementById("lBedOff").onclick = function() { socket.emit('set', new data('lBed', false)); }
+            document.getElementById("lBedB").oninput = function() { socket.emit('set', new data('lBedB', this.value)); }
         </script>
     </body>
 </html>

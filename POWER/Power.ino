@@ -107,27 +107,27 @@ void setFanPwmFreq()
 
 void handleFloatSet(String input, float value)
 {
-  if (input == "lightMain")
+  if (input == "lMainB")
   {
     _stateLightMainValue = value;
   }
-  else if (input == "lightKitchen")
+  else if (input == "lKitchenB")
   {
     _stateLightKitchenValue = value;
   }
-  else if (input == "lightOffice")
+  else if (input == "lOfficeB")
   {
     _stateLightOfficeValue = value;
   }
-  else if (input == "lightBed")
+  else if (input == "lBedB")
   {
     _stateLightBedValue = value;
   }
-  else if (input == "fanKitchen")
+  else if (input == "fKitchenS")
   {
     _stateFanKitchenValue = map(value, 0, 255, _fanMinValue, 255);
   }
-  else if (input == "fanBed")
+  else if (input == "fBedS")
   {
     _stateFanBedValue = map(value, 0, 255, _fanMinValue, 255);
   }
@@ -142,27 +142,27 @@ void handleFloatSet(String input, float value)
 
 void handleBoolSet(String input, bool value)
 {
-  if (input == "lightMain")
+  if (input == "lMain")
   {
     _stateLightMainEnabled = value;
   }
-  else if (input == "lightKitchen")
+  else if (input == "lKitchen")
   {
     _stateLightKitchenEnabled = value;
   }
-  else if (input == "lightOffice")
+  else if (input == "lOffice")
   {
     _stateLightOfficeEnabled = value;
   }
-  else if (input == "lightBed")
+  else if (input == "lBed")
   {
     _stateLightBedEnabled = value;
   }
-  else if (input == "fanKitchen")
+  else if (input == "fKitchen")
   {
     _stateFanKitchenEnabled = value;
   }
-  else if (input == "fanBed")
+  else if (input == "fBed")
   {
     _stateFanBedEnabled = value;
   }
