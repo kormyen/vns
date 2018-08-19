@@ -5,7 +5,8 @@ var io = require('socket.io')(http);
 
 var _pduReady = true;
 var _lastSent = false;
-var _currentRequest = '';
+var _currentKey = '';
+var _currentValue = '';
 
 var state = 
 {
@@ -72,7 +73,8 @@ io.on('connection', function(socket)
   });
   socket.on('set', function(data)
   {
-    _currentRequest = data.key + ' = ' + data.info + ';';
+    _currentKey = data.key;
+    _currentInfo = data.info;
     state[data.key] = data.info;
     if (_pduReady)
     {
@@ -88,7 +90,10 @@ io.on('connection', function(socket)
 sendCurrentRequest = function()
 {
   _pduReady = false;
-  port.write(_currentRequest);
+  port.write(_currentKey + ' = ' + _currentInfo + ';');
   _lastSent = true;
-  io.sockets.emit('state', state);
+
+  var tempState = {};
+  tempState[_currentKey] = _currentInfo;
+  io.sockets.emit('state', tempState);
 }

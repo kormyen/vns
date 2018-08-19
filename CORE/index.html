@@ -33,14 +33,14 @@
             }
             
             var socket = io();
-            socket.on('state', function(data){ 
-                document.getElementById("lMainB").value = data.lMainB;
-                document.getElementById("lOfficeB").value = data.lOfficeB;
-                document.getElementById("lBedB").value = data.lBedB;
-
-                document.getElementById("lMainState").innerHTML = data.lMain;
-                document.getElementById("lOfficeState").innerHTML = data.lOffice;
-                document.getElementById("lBedState").innerHTML = data.lBed;
+            socket.on('state', function(data)
+            { 
+                if (data.lMain !== undefined) { document.getElementById("lMainState").innerHTML = data.lMain; }
+                if (data.lMainB !== undefined) { document.getElementById("lMainB").value = data.lMainB; }
+                if (data.lOffice !== undefined) { document.getElementById("lOfficeState").innerHTML = data.lOffice; }
+                if (data.lOfficeB !== undefined) { document.getElementById("lOfficeB").value = data.lOfficeB; }
+                if (data.lBed !== undefined) { document.getElementById("lBedState").innerHTML = data.lBed; }
+                if (data.lBedB !== undefined) { document.getElementById("lBedB").value = data.lBedB; }
             });
 
             document.getElementById("lMainOn").onclick = function() { socket.emit('set', new data('lMain', true)); }
