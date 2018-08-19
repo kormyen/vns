@@ -103,6 +103,7 @@ sendCurrentRequest = function()
   _pduReady = false;
   port.write(_currentRequest);
   _lastSent = true;
+  io.sockets.emit('state', state);
 }
 
 String.prototype.capitalize = function() 
