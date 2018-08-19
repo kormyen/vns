@@ -7,6 +7,16 @@ var _pduReady = true;
 var _lastSent = false;
 var _currentRequest = '';
 
+var state = 
+{
+  lMain:true, 
+  lMainB:5,
+  lOffice:true, 
+  lOfficeB:5,
+  lBed:true,
+  lBedB:5,
+};
+
 // WEB
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -52,16 +62,18 @@ port.on('open', function()
 
 // SOCKETIO
 io.on('connection', function(socket)
-{
-  console.log('connection');
+{  
+  console.log(socket.request.connection.remoteAddress + ' - ' + socket.id + ' - join');
+  socket.emit('state', state);
 
   socket.on('disconnect', function()
   {
-    console.log('disconnection');
+    console.log(socket.request.connection.remoteAddress + ' - ' + socket.id + ' - exit');
   });
   socket.on('lightToggle', function(data)
   {
     _currentRequest = 'light' + data.key.capitalize() + ' = ' + data.info + ';';
+    state['l'+data.key.capitalize()] = data.info;
     if (_pduReady)
     {
       sendCurrentRequest();
@@ -74,6 +86,7 @@ io.on('connection', function(socket)
   socket.on('lightBrightness', function(data)
   {
     _currentRequest = 'light' + data.key.capitalize() + ' = ' + data.info + ';';
+    state['l'+data.key.capitalize()+'B'] = data.info;
     if (_pduReady)
     {
       sendCurrentRequest();

@@ -1,6 +1,7 @@
 <html>
     <body>
         <div id="title">MAIN</div>
+        <div id="lMainState"></div>
         <button id='lMainOn'>On</button>
         <button id='lMainOff'>Off</button>
         <div class="slidecontainer">
@@ -8,6 +9,7 @@
         </div>
 
         <div id="title">OFFICE</div>
+        <div id="lOfficeState"></div>
         <button id='lOfficeOn'>On</button>
         <button id='lOfficeOff'>Off</button>
         <div class="slidecontainer">
@@ -15,6 +17,7 @@
         </div>
 
         <div id="title">BED</div>
+        <div id="lBedState"></div>
         <button id='lBedOn'>On</button>
         <button id='lBedOff'>Off</button>
         <div class="slidecontainer">
@@ -30,17 +33,24 @@
             }
             
             var socket = io();
+            socket.on('state', function(data){ 
+                document.getElementById("lMainB").value = data.lMainB;
+                document.getElementById("lOfficeB").value = data.lOfficeB;
+                document.getElementById("lBedB").value = data.lBedB;
 
-            document.getElementById("lMainOn").onclick = function() {socket.emit('lightToggle', new data('main', true));}
-            document.getElementById("lMainOff").onclick = function() {socket.emit('lightToggle', new data('main', false));}
+                document.getElementById("lMainState").innerHTML = data.lMain;
+                document.getElementById("lOfficeState").innerHTML = data.lOffice;
+                document.getElementById("lBedState").innerHTML = data.lBed;
+            });
+
+            document.getElementById("lMainOn").onclick = function() { socket.emit('lightToggle', new data('main', true)); }
+            document.getElementById("lMainOff").onclick = function() { socket.emit('lightToggle', new data('main', false)); }
             document.getElementById("lMainB").oninput = function() { socket.emit('lightBrightness', new data('main', this.value)); }
-
-            document.getElementById("lOfficeOn").onclick = function() {socket.emit('lightToggle', new data('office', true));}
-            document.getElementById("lOfficeOff").onclick = function() {socket.emit('lightToggle', new data('office', false));}
+            document.getElementById("lOfficeOn").onclick = function() { socket.emit('lightToggle', new data('office', true)); }
+            document.getElementById("lOfficeOff").onclick = function() { socket.emit('lightToggle', new data('office', false)); }
             document.getElementById("lOfficeB").oninput = function() { socket.emit('lightBrightness', new data('office', this.value)); }
-
-            document.getElementById("lBedOn").onclick = function() {socket.emit('lightToggle', new data('bed', true));}
-            document.getElementById("lBedOff").onclick = function() {socket.emit('lightToggle', new data('bed', false));}
+            document.getElementById("lBedOn").onclick = function() { socket.emit('lightToggle', new data('bed', true)); }
+            document.getElementById("lBedOff").onclick = function() { socket.emit('lightToggle', new data('bed', false)); }
             document.getElementById("lBedB").oninput = function() { socket.emit('lightBrightness', new data('bed', this.value)); }
         </script>
     </body>
