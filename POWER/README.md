@@ -8,10 +8,10 @@ Receives input from [CORE](https://github.com/kormyen/VNS/tree/master/CORE) and 
 
 #### Development
 
-Send serial input examples:
+Serial input examples:
 ```
-lightMain = 50.5;
-lightMain = true;
-lightOffice = true;
-lightBed = 255;
+lMain = 50.5;
+lMain = true;
+lOffice = true;
+lBed = 255;
 ```
