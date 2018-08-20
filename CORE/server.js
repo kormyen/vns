@@ -12,11 +12,11 @@ var _currentValue = '';
 var state = 
 {
   lMain:true, 
-  lMainB:5,
+  lMainB:255,
   lOffice:true, 
-  lOfficeB:5,
+  lOfficeB:255,
   lBed:true,
-  lBedB:5,
+  lBedB:255,
 };
 
 // WEB

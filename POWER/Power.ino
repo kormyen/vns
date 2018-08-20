@@ -19,11 +19,11 @@ Bun _buttonTestLights(38);
 bool _stateLightMainEnabled = true;
 float _stateLightMainValue = 255.0;
 bool _stateLightKitchenEnabled = false;
-float _stateLightKitchenValue = 1.0;
+float _stateLightKitchenValue = 255.0;
 bool _stateLightOfficeEnabled = true;
-float _stateLightOfficeValue = 50.0;
+float _stateLightOfficeValue = 255.0;
 bool _stateLightBedEnabled = true;
-float _stateLightBedValue = 150.0;
+float _stateLightBedValue = 255.0;
 
 bool _stateFanKitchenEnabled = false;
 float _stateFanKitchenValue = 1.0;
