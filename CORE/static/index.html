@@ -1,60 +1,108 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <!-- <div id="title">MAIN</div>
-        <div id="lMainState">x</div>
-        <button id='lMainOn'>On</button>
-        <button id='lMainOff'>Off</button>
-        <div class="slidecontainer">
-          <input type="range" min="1" max="255" value="255" class="slider" id="lMainB">
-        </div> -->
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="elementContainer">
+      <div class="title">MAIN</div>
+      <div class="elementButton">
+        <button id='lMainOff'></button>
+      </div>
+      <div class="elementSlider">
+        <input type="range" min=0 max=255 step=1 value=50 id="lMainB" style="--min: 0; --max: 100; --val: 50;">
+      </div>
+    </div>
 
-        <div id="title">OFFICE</div>
-        <div id="lOfficeState">x</div>
-        <button id='lOfficeOn'>On</button>
-        <button id='lOfficeOff'>Off</button>
-        <div class="slidecontainer">
-          <input type="range" min="1" max="255" value="255" class="slider" id="lOfficeB">
-        </div>
+    <div class="elementContainer">
+      <div class="title">KITCHEN</div>
+      <div class="elementButton">
+        <button id='lKitchenOff'></button>
+      </div>
+      <div class="elementSlider">
+        <input type="range" min=0 max=255 step=1 value=50 id="lKitchenB" style="--min: 0; --max: 100; --val: 50;">
+      </div>
+    </div>
 
-        <div id="title">BED</div>
-        <div id="lBedState">x</div>
-        <button id='lBedOn'>On</button>
-        <button id='lBedOff'>Off</button>
-        <div class="slidecontainer">
-          <input type="range" min="1" max="255" value="255" class="slider" id="lBedB">
-        </div>
+    <div class="elementContainer">
+      <div class="title">OFFICE</div>
+      <div class="elementButton">
+        <button id='lBedOff'></button>
+      </div>
+      <div class="elementSlider">
+        <input type="range" min=0 max=255 step=1 value=50 id="lOfficeB" style="--min: 0; --max: 100; --val: 50;">
+      </div>
+    </div>
 
-        <script src="/socket.io/socket.io.js"></script> <!-- automatically added -->
-        <script>
-            function data(key, info)
-            {
-               this.key = key;
-               this.info = info;
-            }
-            
-            var socket = io();
-            socket.on('state', function(data)
-            { 
-                // if (data.lMain !== undefined) { document.getElementById("lMainState").innerHTML = data.lMain; }
-                // if (data.lMainB !== undefined) { document.getElementById("lMainB").value = data.lMainB; }
-                if (data.lOffice !== undefined) { document.getElementById("lOfficeState").innerHTML = data.lOffice; }
-                if (data.lOfficeB !== undefined) { document.getElementById("lOfficeB").value = data.lOfficeB; }
-                if (data.lBed !== undefined) { document.getElementById("lBedState").innerHTML = data.lBed; }
-                if (data.lBedB !== undefined) { document.getElementById("lBedB").value = data.lBedB; }
-            });
+    <div class="elementContainer">
+      <div class="title">BED</div>
+      <div class="elementButton">
+        <button id='lBedOff'></button>
+      </div>
+      <div class="elementSlider">
+        <input type="range" min=0 max=255 step=1 value=50 id="lBedB" style="--min: 0; --max: 100; --val: 50;">
+      </div>
+    </div>
 
-            // document.getElementById("lMainOn").onclick = function() { socket.emit('set', new data('lMain', true)); }
-            // document.getElementById("lMainOff").onclick = function() { socket.emit('set', new data('lMain', false)); }
-            // document.getElementById("lMainB").oninput = function() { socket.emit('set', new data('lMainB', this.value)); }
-            document.getElementById("lOfficeOn").onclick = function() { socket.emit('set', new data('lOffice', true)); }
-            document.getElementById("lOfficeOff").onclick = function() { socket.emit('set', new data('lOffice', false)); }
-            document.getElementById("lOfficeB").oninput = function() { socket.emit('set', new data('lOfficeB', this.value)); }
-            document.getElementById("lBedOn").onclick = function() { socket.emit('set', new data('lBed', true)); }
-            document.getElementById("lBedOff").onclick = function() { socket.emit('set', new data('lBed', false)); }
-            document.getElementById("lBedB").oninput = function() { socket.emit('set', new data('lBedB', this.value)); }
-        </script>
+    <script>
+      function rangeColor(input)
+      {
+        var wrp = document.createElement('div'),
+        preBar = document.createElement('p'),
+        min = parseInt(input.min, 10),
+        max = parseInt(input.max, 10),
+        range = max - min,
+        getVal = function() 
+        {
+          var w = parseInt(input.clientWidth, 10),
+          t = ~~(w * (parseInt(input.value, 10) - min) / range);
+          return t;
+        };
+        wrp.className = 'barCnt';
+        preBar.className = 'preBar';
+        input.className = input.className.length ? (input.className + ' colorized') : 'colorized';
+        input.parentNode.replaceChild(wrp, input);
+        wrp.appendChild(input);
+        wrp.appendChild(preBar);
+        input.addEventListener('input', function() 
+        {
+          preBar.style.width = getVal() + 'px';
+        });
+        preBar.style.width = getVal() + 'px';
+      }
+      rangeColor(document.getElementById('lMainB'))
+      rangeColor(document.getElementById('lKitchenB'))
+      rangeColor(document.getElementById('lOfficeB'))
+      rangeColor(document.getElementById('lBedB'))
+    </script>
+
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script> <!-- automatically added -->
+    <script>
+      function data(key, info)
+      {
+       this.key = key;
+       this.info = info;
+      }
+
+      var socket = io();
+      socket.on('state', function(data)
+      { 
+        // if (data.lMain !== undefined) { document.getElementById("lMainState").innerHTML = data.lMain; }
+        // if (data.lMainB !== undefined) { document.getElementById("lMainB").value = data.lMainB; }
+        // if (data.lOffice !== undefined) { document.getElementById("lOfficeState").innerHTML = data.lOffice; }
+        // if (data.lOfficeB !== undefined) { document.getElementById("lOfficeB").value = data.lOfficeB; }
+        // if (data.lBed !== undefined) { document.getElementById("lBedState").innerHTML = data.lBed; }
+        // if (data.lBedB !== undefined) { document.getElementById("lBedB").value = data.lBedB; }
+      });
+
+      // document.getElementById("lMainOn").onclick = function() { socket.emit('set', new data('lMain', true)); }
+      // document.getElementById("lMainOff").onclick = function() { socket.emit('set', new data('lMain', false)); }
+      // document.getElementById("lMainB").oninput = function() { socket.emit('set', new data('lMainB', this.value)); }
+      // document.getElementById("lOfficeOn").onclick = function() { socket.emit('set', new data('lOffice', true)); }
+      // document.getElementById("lOfficeOff").onclick = function() { socket.emit('set', new data('lOffice', false)); }
+      // document.getElementById("lOfficeB").oninput = function() { socket.emit('set', new data('lOfficeB', this.value)); }
+      // document.getElementById("lBedOn").onclick = function() { socket.emit('set', new data('lBed', true)); }
+      // document.getElementById("lBedOff").onclick = function() { socket.emit('set', new data('lBed', false)); }
+      // document.getElementById("lBedB").oninput = function() { socket.emit('set', new data('lBedB', this.value)); }
+    </script>
     </body>
 </html>
