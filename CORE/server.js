@@ -1,5 +1,6 @@
 var serialport = require('serialport');
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
@@ -19,9 +20,10 @@ var state =
 };
 
 // WEB
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-});
+// app.get('/', function(req, res){
+//   res.sendFile(__dirname + '/index.html');
+// });
+app.use(express.static(__dirname + '/static'));
 http.listen(3000, '0.0.0.0', function(){
   console.log('Listening on port 3000');
 });

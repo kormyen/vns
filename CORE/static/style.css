@@ -1,0 +1,101 @@
+/* VARIABLES */
+:root {
+  /* COLOR */
+  --color-main-bg: #eee;
+
+  --size-slider-height: 1.5em;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: 'Monaco', 'Andale Mono', 'Deja Vu Sans Mono', 'Consolas', monospace;
+  background: var(--color-main-bg); 
+  padding: 0em;
+  margin: 0; 
+  overflow-y: scroll; 
+}
+body {
+  padding: 0em;
+  margin: 0; 
+}
+
+/*SLIDER*/
+[type='range'] {
+  --range: calc(var(--max) - var(--min));
+  --ratio: calc((var(--val) - var(--min))/var(--range));
+  --sx: calc(.5*var(--size-slider-height) + var(--ratio)*(100% - var(--size-slider-height)));
+  margin: 0;
+  padding: 0;
+  width: 12.5em;
+  height: var(--size-slider-height);
+  background: transparent;
+  font: 1em/1 arial, sans-serif;
+}
+[type='range'], [type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+[type='range']::-webkit-slider-runnable-track {
+  box-sizing: border-box;
+  border: none;
+  width: 12.5em;
+  height: var(--size-slider-height);
+  background: #ccc;
+}
+.js [type='range']::-webkit-slider-runnable-track {
+  background: linear-gradient(#ddd, #ddd) 0/var(--sx) 100% no-repeat #ccc;
+}
+[type='range']::-moz-range-track {
+  box-sizing: border-box;
+  border: none;
+  width: 12.5em;
+  height: var(--size-slider-height);
+  background: #ccc;
+}
+[type='range']::-ms-track {
+  box-sizing: border-box;
+  border: none;
+  width: 12.5em;
+  height: var(--size-slider-height);
+  background: #ccc;
+}
+[type='range']::-moz-range-progress {
+  height: var(--size-slider-height);
+  background: #ddd;
+}
+[type='range']::-ms-fill-lower {
+  height: var(--size-slider-height);
+  background: #ddd;
+}
+
+/*SLIDER THUMB*/
+[type='range']::-webkit-slider-thumb {
+  margin-top: -0.625em;
+  box-sizing: border-box;
+  border: none;
+  width: 0em;
+  height: 0em;
+  border-radius: 0;
+  background: #fff;
+}
+[type='range']::-moz-range-thumb {
+  box-sizing: border-box;
+  border: none;
+  width: 0em;
+  height: 0em;
+  border-radius: 0;
+  background: #fff;
+}
+[type='range']::-ms-thumb {
+  margin-top: 0;
+  box-sizing: border-box;
+  border: none;
+  width: 0em;
+  height: 0em;
+  border-radius: 0;
+  background: #fff;
+}
+[type='range']::-ms-tooltip {
+  display: none;
+}

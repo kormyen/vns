@@ -1,0 +1,123 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/dojo/1.13.0/dojo/dojo.js"></script>
+
+    <style type="text/css">
+
+      html {
+        font-family: 'Monaco', 'Andale Mono', 'Deja Vu Sans Mono', 'Consolas', monospace;
+        background: #000; 
+        padding: 0em;
+        margin: 0; 
+        overflow-y: scroll; 
+      } 
+
+      .barCnt 
+      {
+        position: relative;
+        height: 10px;
+        padding: 5px 0px;
+      }
+
+      .barCnt .preBar {
+        position: absolute;
+        background-color: blue;
+        height: 50px;
+        line-height: 50px;
+        z-index: 200;
+        padding: 0px;
+        margin: 0px;
+        pointer-events: none;
+      }
+
+      input[type=range].colorized {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 50px;
+        position: absolute;
+        padding: 0px;
+        margin: 0px;
+        cursor: ew-resize;
+        z-index: 100;
+        left: 0px
+      }
+
+      input[type=range].colorized::-webkit-slider-runnable-track {
+        height: 50px;
+        background: orange;
+        border: none;
+      }
+
+      input[type=range].colorized::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: none;
+        height: 0px;
+        width: 0px;
+        background: blue;
+        margin-top: 0px;
+        z-index: 400;
+      }
+
+      input[type=range].colorized:focus {
+        outline: none;
+      }
+
+      input[type=range].colorized:focus::-webkit-slider-runnable-track {
+        background: #ccc;
+      }
+
+      input[type=range].colorized::-moz-range-track {
+        width: 100%;
+        height: 50px;
+        background: orange;
+        border: none;
+      }
+
+      input[type=range].colorized::-moz-range-thumb {
+        border: none;
+        height: 0px;
+        width: 0px;
+        background: blue;
+        z-index: 400;
+      }
+
+      input[type=range].colorized::-moz-focus-outer {
+        border: 0;
+      }
+      </style>
+  </head>
+
+  <body>
+    <input type="range" min=0 max=255 step=1 value=50 id="range2">
+
+    <script>
+      function rangeColor(input)
+      {
+        var wrp = document.createElement('div'),
+        preBar = document.createElement('p'),
+        min = parseInt(input.min, 10),
+        max = parseInt(input.max, 10),
+        range = max - min,
+        getVal = function() 
+        {
+          var w = parseInt(input.clientWidth, 10),
+            t = ~~(w * (parseInt(input.value, 10) - min) / range);
+          return t;
+        };
+        wrp.className = 'barCnt';
+        preBar.className = 'preBar';
+        input.className = input.className.length ? (input.className + ' colorized') : 'colorized';
+        input.parentNode.replaceChild(wrp, input);
+        wrp.appendChild(input);
+        wrp.appendChild(preBar);
+        input.addEventListener('input', function() 
+        {
+          preBar.style.width = getVal() + 'px';
+        });
+        preBar.style.width = getVal() + 'px';
+      }
+
+      rangeColor(document.getElementById('range2'))
+    </script>
+  </body>
+</html>
