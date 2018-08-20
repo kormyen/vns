@@ -2,19 +2,17 @@
 :root 
 {
   --color-main-bg: #000;
-  --color-main: #999;
-
+  --color-main: #666;
   --color-button-idle: #111;
   --color-button-hover: #111;
   --color-button-active: #111;
-
-  --size-slider-height: 150px;
   --color-slider-main: #333;
   --color-slider-empty: #111;
 
-  --element-title-width: 180px;
-  --padding-inner: 40px;
+  --slider-height: 150px;
+  --title-width: 180px;
   --padding-outer: 80px;
+  --padding-inner: 40px;
 }
 
 * 
@@ -44,17 +42,17 @@ body
   margin-left: var(--padding-outer);
   margin-right: var(--padding-outer);
   display: flex;
-  height: var(--size-slider-height);
+  height: var(--slider-height);
 }
 .elementContainer .title
 {
   float: left;
   font-size: 32pt;
-  height: var(--size-slider-height);
+  height: var(--slider-height);
   margin-right: var(--padding-inner);
-  line-height: var(--size-slider-height);
-  width: var(--element-title-width);
-  min-width: var(--element-title-width);
+  line-height: var(--slider-height);
+  width: var(--title-width);
+  min-width: var(--title-width);
 }
 .elementContainer .elementSlider
 {
@@ -77,8 +75,8 @@ body
   cursor: pointer;
   outline: none; /*mobile browser board on press*/
   background-color: var(--color-button-idle);
-  width: var(--size-slider-height);
-  height: var(--size-slider-height);
+  width: var(--slider-height);
+  height: var(--slider-height);
   border-radius: 0px;
   font-size: 32pt;
   border: 0px;
@@ -107,8 +105,8 @@ body
 {
   position: absolute;
   background-color: var(--color-slider-main);
-  height: var(--size-slider-height);
-  line-height: var(--size-slider-height);
+  height: var(--slider-height);
+  line-height: var(--slider-height);
   z-index: 200;
   padding: 0px;
   margin: 0px;
@@ -119,7 +117,7 @@ input[type=range].colorized
 {
   -webkit-appearance: none;
   width: 100%;
-  height: var(--size-slider-height);
+  height: var(--slider-height);
   position: absolute;
   padding: 0px;
   margin: 0px;
@@ -130,7 +128,7 @@ input[type=range].colorized
 
 input[type=range].colorized::-webkit-slider-runnable-track 
 {
-  height: var(--size-slider-height);
+  height: var(--slider-height);
   background: var(--color-slider-empty);
   border: none;
 }
@@ -153,13 +151,13 @@ input[type=range].colorized:focus
 
 input[type=range].colorized:focus::-webkit-slider-runnable-track 
 {
-  background: #ccc;
+  background: var(--color-slider-empty);
 }
 
 input[type=range].colorized::-moz-range-track 
 {
   width: 100%;
-  height: var(--size-slider-height);
+  height: var(--slider-height);
   background: var(--color-slider-empty);
   border: none;
 }

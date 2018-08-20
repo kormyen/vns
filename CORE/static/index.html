@@ -6,7 +6,7 @@
     <div class="elementContainer">
       <div class="title">MAIN</div>
       <div class="elementButton">
-        <button id='lMainOff'></button>
+        <!-- <button id='lMainOff'></button> -->
       </div>
       <div class="elementSlider">
         <input type="range" min=0 max=255 step=1 value=50 id="lMainB" style="--min: 0; --max: 100; --val: 50;">
@@ -16,7 +16,7 @@
     <div class="elementContainer">
       <div class="title">KITCHEN</div>
       <div class="elementButton">
-        <button id='lKitchenOff'></button>
+        <!-- <button id='lKitchenOff'></button> -->
       </div>
       <div class="elementSlider">
         <input type="range" min=0 max=255 step=1 value=50 id="lKitchenB" style="--min: 0; --max: 100; --val: 50;">
@@ -26,7 +26,7 @@
     <div class="elementContainer">
       <div class="title">OFFICE</div>
       <div class="elementButton">
-        <button id='lBedOff'></button>
+        <!-- <button id='lBedOff'></button> -->
       </div>
       <div class="elementSlider">
         <input type="range" min=0 max=255 step=1 value=50 id="lOfficeB" style="--min: 0; --max: 100; --val: 50;">
@@ -36,47 +36,56 @@
     <div class="elementContainer">
       <div class="title">BED</div>
       <div class="elementButton">
-        <button id='lBedOff'></button>
+        <!-- <button id='lBedOff'></button> -->
       </div>
       <div class="elementSlider">
         <input type="range" min=0 max=255 step=1 value=50 id="lBedB" style="--min: 0; --max: 100; --val: 50;">
       </div>
     </div>
 
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script> <!-- automatically added -->
     <script>
       function rangeColor(input)
       {
-        var wrp = document.createElement('div'),
-        preBar = document.createElement('p'),
-        min = parseInt(input.min, 10),
-        max = parseInt(input.max, 10),
-        range = max - min,
-        getVal = function() 
+        var slider = new Object();
+        slider.wrp = document.createElement('div');
+        slider.preBar = document.createElement('p');
+        slider.min = parseInt(input.min, 10);
+        slider.max = parseInt(input.max, 10);
+        slider.range = slider.max - slider.min;
+        
+        slider.getVal = function() 
         {
           var w = parseInt(input.clientWidth, 10),
-          t = ~~(w * (parseInt(input.value, 10) - min) / range);
+          t = ~~(w * (parseInt(input.value, 10) - slider.min) / slider.range);
           return t;
         };
-        wrp.className = 'barCnt';
-        preBar.className = 'preBar';
-        input.className = input.className.length ? (input.className + ' colorized') : 'colorized';
-        input.parentNode.replaceChild(wrp, input);
-        wrp.appendChild(input);
-        wrp.appendChild(preBar);
-        input.addEventListener('input', function() 
+        slider.updateView = function()
         {
-          preBar.style.width = getVal() + 'px';
-        });
-        preBar.style.width = getVal() + 'px';
-      }
-      rangeColor(document.getElementById('lMainB'))
-      rangeColor(document.getElementById('lKitchenB'))
-      rangeColor(document.getElementById('lOfficeB'))
-      rangeColor(document.getElementById('lBedB'))
-    </script>
+          slider.preBar.style.width = slider.getVal() + 'px';
+        }
 
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script> <!-- automatically added -->
-    <script>
+        slider.wrp.className = 'barCnt';
+        slider.preBar.className = 'preBar';
+        input.className = input.className.length ? (input.className + ' colorized') : 'colorized';
+        input.parentNode.replaceChild(slider.wrp, input);
+        slider.wrp.appendChild(input);
+        slider.wrp.appendChild(slider.preBar);
+        input.addEventListener('input', slider.updateView);
+        // input.addEventListener('change', function() 
+        // {
+        //   slider.preBar.style.width = slider.getVal() + 'px';
+        // });
+        slider.preBar.style.width = slider.getVal() + 'px';
+        return slider;
+      }
+
+      var sliders = {};
+      sliders['lMainB'] = rangeColor(document.getElementById('lMainB'))
+      sliders['lKitchenB'] = rangeColor(document.getElementById('lKitchenB'))
+      sliders['lOfficeB'] = rangeColor(document.getElementById('lOfficeB'))
+      sliders['lBedB'] = rangeColor(document.getElementById('lBedB'))
+
       function data(key, info)
       {
        this.key = key;
@@ -84,25 +93,30 @@
       }
 
       var socket = io();
+
+      var lMainSlider = document.getElementById("lMainB");
+      var lOfficeSlider = document.getElementById("lOfficeB");
+      var lBedSlider = document.getElementById("lBedB");
+
       socket.on('state', function(data)
       { 
         // if (data.lMain !== undefined) { document.getElementById("lMainState").innerHTML = data.lMain; }
-        // if (data.lMainB !== undefined) { document.getElementById("lMainB").value = data.lMainB; }
+        if (data.lMainB !== undefined) { lMainSlider.value = data.lMainB; sliders['lMainB'].updateView(); }
         // if (data.lOffice !== undefined) { document.getElementById("lOfficeState").innerHTML = data.lOffice; }
-        // if (data.lOfficeB !== undefined) { document.getElementById("lOfficeB").value = data.lOfficeB; }
+        if (data.lOfficeB !== undefined) { lOfficeSlider.value = data.lOfficeB; sliders['lOfficeB'].updateView(); }
         // if (data.lBed !== undefined) { document.getElementById("lBedState").innerHTML = data.lBed; }
-        // if (data.lBedB !== undefined) { document.getElementById("lBedB").value = data.lBedB; }
+        if (data.lBedB !== undefined) { lBedSlider.value = data.lBedB; sliders['lBedB'].updateView(); }
       });
 
       // document.getElementById("lMainOn").onclick = function() { socket.emit('set', new data('lMain', true)); }
       // document.getElementById("lMainOff").onclick = function() { socket.emit('set', new data('lMain', false)); }
-      // document.getElementById("lMainB").oninput = function() { socket.emit('set', new data('lMainB', this.value)); }
+      lMainSlider.oninput = function() { socket.emit('set', new data('lMainB', this.value)); }
       // document.getElementById("lOfficeOn").onclick = function() { socket.emit('set', new data('lOffice', true)); }
       // document.getElementById("lOfficeOff").onclick = function() { socket.emit('set', new data('lOffice', false)); }
-      // document.getElementById("lOfficeB").oninput = function() { socket.emit('set', new data('lOfficeB', this.value)); }
+      lOfficeSlider.oninput = function() { socket.emit('set', new data('lOfficeB', this.value)); }
       // document.getElementById("lBedOn").onclick = function() { socket.emit('set', new data('lBed', true)); }
       // document.getElementById("lBedOff").onclick = function() { socket.emit('set', new data('lBed', false)); }
-      // document.getElementById("lBedB").oninput = function() { socket.emit('set', new data('lBedB', this.value)); }
+      lBedSlider.oninput = function() { socket.emit('set', new data('lBedB', this.value)); }
     </script>
     </body>
 </html>
