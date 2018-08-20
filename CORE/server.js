@@ -20,9 +20,6 @@ var state =
 };
 
 // WEB
-// app.get('/', function(req, res){
-//   res.sendFile(__dirname + '/index.html');
-// });
 app.use(express.static(__dirname + '/static'));
 http.listen(3000, '0.0.0.0', function(){
   console.log('Listening on port 3000');
@@ -33,12 +30,6 @@ var receivedData = "";
 var port = new serialport('COM6', 
 {
   baudRate: 9600,
-  // parser: new serialport.parsers.Readline("\n")
-  // defaults for Arduino serial communication
-  // dataBits: 8, 
-  // parity: 'none', 
-  // stopBits: 1, 
-  // flowControl: false 
 });
 port.on('error', function(err)
 {
