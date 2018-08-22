@@ -34,13 +34,13 @@ ___
 ___
 
 #### Raspberry Pi Zero W Setup Guide
-Prep:
+**On dev PC**
 - Download Etcher SD flasher https://etcher.io/
 - Download Raspbian Lite OS https://www.raspberrypi.org/downloads/raspbian/
 - Write Raspbian Lite to SD card with Etcher
-- Plug in SD card, HDMI, keyboard and power to Pi.
 
-On Pi:
+**On Pi**
+- Plug in SD card, monitor, keyboard and power
 - Login with user `pi` password `raspberry`
 - type 'sudo raspi-config'
 - setup '1 Change User Password'
@@ -54,18 +54,18 @@ On Pi:
 - type `ifconfig`
 - record 'inet addr' (IP address)
 
-On dev PC:
-
-Connect to Pi via SSH
+**On dev PC**
 - type `ssh **your-pi-IP-address**` to connect to pi via ssh
+
+Setup Github SSH:
 - type `ssh-keygen -b 2048 -t rsa` to create ssh key
 - [add the key to your github account](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/)
 - type `ssh -T git@github.com` to test ssh key
 
-Install Git
+Install Git:
 - type `sudo apt-get install git`
 
-Install node.js ([reference](https://www.thepolyglotdeveloper.com/2018/03/install-nodejs-raspberry-pi-zero-w-nodesource/))
+Install node.js ([reference](https://www.thepolyglotdeveloper.com/2018/03/install-nodejs-raspberry-pi-zero-w-nodesource/)):
 - type `curl -o node-v10.9.0-linux-armv6l.tar.gz https://nodejs.org/dist/v10.9.0/node-v10.9.0-linux-armv6l.tar.gz` to download node - [pick correct version here](https://nodejs.org/dist/)
 - type `tar -xzf node-v10.9.0-linux-armv6l.tar.gz` to unzip download
 - type `rm -r node-v10.9.0-linux-armv6l.tar.gz` to delete zipped download
@@ -78,9 +78,9 @@ Install node.js ([reference](https://www.thepolyglotdeveloper.com/2018/03/instal
 - type `node -v` to test node is installed correctly
 - type `npm -v` to test npm is installed correctly
 
-Setup vns
+Setup VNS:
 - type `git@github.com:kormyen/vns.git` to download repo
 - type `cd vns/CORE` to move into nodejs project folder
 - type `npm install` to install node dependencies
-- type `npm start` to run vns
+- type `npm start` to run VNS
 - In a web browser go to `**your-pi-IP-address**:3000`
