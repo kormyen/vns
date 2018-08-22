@@ -27,7 +27,7 @@ http.listen(3000, '0.0.0.0', function(){
 
 // SERIAL
 var receivedData = "";
-var port = new serialport('COM6', 
+var port = new serialport('/dev/ttyACM0',//'COM6', 
 {
   baudRate: 9600,
 });
