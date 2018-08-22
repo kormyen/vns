@@ -14,6 +14,7 @@ npm install
 npm start
 ```
 Then visit http://localhost:3000/
+___
 
 #### Dependencies
 
@@ -21,6 +22,7 @@ Then visit http://localhost:3000/
 - Web UI: [Express](https://expressjs.com/)
 - State sync: [Socket.io](https://socket.io/)
 - Arduino communication: [Serialport](https://node-serialport.github.io/node-serialport/)
+___
 
 #### Parts
 
@@ -29,6 +31,7 @@ Then visit http://localhost:3000/
 - [Acrylic Case](https://www.aliexpress.com/item/Raspberry-Pi-Zero-W-Case-Acrylic-Case-Black-Aluminum-Heat-Sink-Transparent-Box-compatible-for-Raspberry/32796224314.html)
 - [Mini-HDMI to HDMI cable](https://www.aliexpress.com/item/High-speed-Gold-Plated-HDMI-TO-MINI-HDMI-Plug-Male-Male-HDMI-Cable-1M-2M-3M/32840949844.html)
 - [16GB C10 Micro SD](https://www.aliexpress.com/item/SanDisk-Extreme-Pro-Ultra-Micro-SD-Memory-Card-SDHC-SDXC-UHS-I-C10-U3-V30-16GB/32834198741.html)
+___
 
 #### Raspberry Pi Zero W Setup Guide
 Prep:
@@ -52,31 +55,32 @@ On Pi:
 - record 'inet addr' (IP address)
 
 On dev PC:
-// Setup SSH
-- type `ssh *your pi IP address*` // connect to pi via ssh
-- type `ssh-keygen -b 2048 -t rsa` // create ssh key
-- [add the key to your github account](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/)
-- type `ssh -T git@github.com` // test ssh key
 
-// Install Git
+Connect to Pi via SSH
+- type `ssh **your-pi-IP-address**` to connect to pi via ssh
+- type `ssh-keygen -b 2048 -t rsa` to create ssh key
+- [add the key to your github account](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/)
+- type `ssh -T git@github.com` to test ssh key
+
+Install Git
 - type `sudo apt-get install git`
 
-// Install node.js ([reference](https://www.thepolyglotdeveloper.com/2018/03/install-nodejs-raspberry-pi-zero-w-nodesource/))
-- type `curl -o node-v10.9.0-linux-armv6l.tar.gz https://nodejs.org/dist/v10.9.0/node-v10.9.0-linux-armv6l.tar.gz` // Download node - [pick version here](https://nodejs.org/dist/)
-- type `tar -xzf node-v10.9.0-linux-armv6l.tar.gz` // Unzip download
-- type `rm -r node-v10.9.0-linux-armv6l.tar.gz` // Delete zipped download
-- type `sudo cp -R /home/pi/node-v10.9.0-linux-armv6l/* /usr/local/` // Install nodejs
-- type `sudo rm -r /home/pi/node-v10.9.0-linux-armv6l/` // Remove temporary files
-- type `nano ~/.profile` // open ".profile" file for editing
-- at the end of the file type `PATH=$PATH:/usr/local/bin` // make node and npm commands usable from terminal
-- press 'ctrl + x'
-- type `yes` to save
-- type `node -v` // test node is installed correctly
-- type `npm -v` // test npm is installed correctly
+Install node.js ([reference](https://www.thepolyglotdeveloper.com/2018/03/install-nodejs-raspberry-pi-zero-w-nodesource/))
+- type `curl -o node-v10.9.0-linux-armv6l.tar.gz https://nodejs.org/dist/v10.9.0/node-v10.9.0-linux-armv6l.tar.gz` to download node - [pick correct version here](https://nodejs.org/dist/)
+- type `tar -xzf node-v10.9.0-linux-armv6l.tar.gz` to unzip download
+- type `rm -r node-v10.9.0-linux-armv6l.tar.gz` to delete zipped download
+- type `sudo cp -R /home/pi/node-v10.9.0-linux-armv6l/* /usr/local/` to install nodejs
+- type `sudo rm -r /home/pi/node-v10.9.0-linux-armv6l/` to remove temporary files
+- type `nano ~/.profile` to open ".profile" file for editing
+- at the end of the file type `PATH=$PATH:/usr/local/bin` to make node and npm commands usable from terminal
+- press ctrl+x to to exit
+- type `yes` to to save
+- type `node -v` to test node is installed correctly
+- type `npm -v` to test npm is installed correctly
 
-// Setup vns
-- type `git@github.com:kormyen/vns.git` // Download repo
-- type `cd vns/CORE` // Move into nodejs project folder
-- type `npm install` // Install node dependencies
-- type `npm start` // Run vns
-- In a web browser go to *your pi IP address*:3000
+Setup vns
+- type `git@github.com:kormyen/vns.git` to download repo
+- type `cd vns/CORE` to move into nodejs project folder
+- type `npm install` to install node dependencies
+- type `npm start` to run vns
+- In a web browser go to `**your-pi-IP-address**:3000`
