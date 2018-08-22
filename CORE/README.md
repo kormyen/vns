@@ -5,7 +5,6 @@ Node.js app running on Raspberry Pi Zero W
 Receives input from web UI and/or [CONTROL](https://github.com/kormyen/VNS/tree/master/CONTROL) panel(s), sends commands to [POWER](https://github.com/kormyen/VNS/tree/master/POWER)
 
 <img src='https://raw.githubusercontent.com/kormyen/VNS/master/CORE/000.jpg'>
-___
 
 #### Development
 ```
