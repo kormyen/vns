@@ -9,11 +9,14 @@
   --color-slider-main: #333;
   --color-slider-empty: #111;
 
-  --slider-height: 150px;
-  --title-width: 180px;
-  --padding-outer: 80px;
-  --padding-inner: 40px;
-  --padding-sep: 20px;
+  --element-height: 200px;
+  --row-height: calc(var(--element-height) / 2);
+  --title-width: 120px;
+  --padding-outer: calc(var(--element-height) / 2);
+  --padding-inner: calc(var(--padding-outer) / 2);
+  --padding-sep: calc(var(--padding-inner) / 4);
+  --padding-sep-half: calc(var(--padding-sep) / 2);
+  --row-element-height: calc(var(--row-height) - var(--padding-sep-half));
 }
 
 * 
@@ -24,14 +27,14 @@ html
 {
   font-family: 'Monaco', 'Andale Mono', 'Deja Vu Sans Mono', 'Consolas', monospace;
   background: var(--color-main-bg); 
-  padding: 0em;
+  padding: 0;
   margin: 0; 
   overflow-y: scroll;
   color: var(--color-main);
 }
 body 
 {
-  padding: 0em;
+  padding: 0;
   margin: 0; 
   margin-top: var(--padding-outer);
 }
@@ -42,55 +45,138 @@ body
   margin-bottom: var(--padding-inner);
   margin-left: var(--padding-outer);
   display: flex;
-  height: var(--slider-height);
+  height: var(--element-height);
 }
-.elementContainer .title
+.elementTitle
 {
   float: left;
   font-size: 32pt;
-  height: var(--slider-height);
+  text-align: right;
+  height: var(--element-height);
   margin-right: var(--padding-inner);
-  line-height: var(--slider-height);
+  line-height: var(--element-height);
   width: var(--title-width);
   min-width: var(--title-width);
 }
-.elementContainer .elementSlider
+.elementContent
 {
   float: left;
   width: 100%;
-  height: 100%;
-  padding: 0px;
-  margin: 0px;
+  height: var(--element-height);
+  margin-right: var(--padding-outer);
 }
-.elementContainer .elementButton
+.elementSlider
 {
-  height: 100%;
+  float: left;
+  clear: both;
+  width : calc( 100% - var(--padding-sep) );
   padding: 0px;
   margin: 0px;
+  margin-left: var(--padding-sep);
+  margin-top: var(--padding-sep);
+}
+.elementButton
+{
   float: left;
   width: 100%;
+  padding: 0px;
+  margin: 0px;
 }
-.elementContainer .elementButton button
+.elementButton button
 {
+  width : calc( 33.33% - var(--padding-sep) );
   cursor: pointer;
   outline: none; /*mobile browser boarder on active (tapped)*/
   background-color: var(--color-button-idle);
-  min-width: var(--slider-height);
-  width: 28%;
-  height: var(--slider-height);
+  /*min-width: var(--element-height);*/
+  /*width: 28%;*/
+  height: var(--row-element-height);
   border-radius: 0px;
   font-size: 32pt;
   border: 0px;
   border: none;
-  display: inline-block;
   text-decoration: none;
-  margin-right: var(--padding-sep);
+  margin: 0px;
+  margin-left: var(--padding-sep);
 }
-.elementContainer .elementButton button:hover
+.elementButton button:hover
 {
   background-color: var(--color-button-hover);
 }
-.elementContainer .elementButton button:active
+.elementButton button:active
 {
   padding:0px;
+}
+
+/*SLIDER*/
+.barCnt 
+{
+  position: relative;
+  height: 10px;
+}
+.barCnt .preBar 
+{
+  position: absolute;
+  background-color: var(--color-slider-main);
+  height: var(--row-element-height);
+  line-height: var(--row-element-height);
+  z-index: 200;
+  padding: 0px;
+  margin: 0px;
+  pointer-events: none;
+}
+input[type=range].colorized 
+{
+  -webkit-appearance: none;
+  width: 100%;
+  height: var(--row-element-height);
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  cursor: ew-resize;
+  z-index: 100;
+  left: 0px
+}
+input[type=range].colorized::-webkit-slider-runnable-track 
+{
+  height: var(--row-element-height);
+  background: var(--color-slider-empty);
+  border: none;
+}
+input[type=range].colorized::-webkit-slider-thumb 
+{
+  -webkit-appearance: none;
+  border: none;
+  height: 0px;
+  width: 0px;
+  background: var(--color-slider-main);
+  margin-top: 0px;
+  z-index: 400;
+}
+input[type=range].colorized:focus 
+{
+  outline: none;
+}
+input[type=range].colorized:focus::-webkit-slider-runnable-track 
+{
+  background: var(--color-slider-empty);
+}
+input[type=range].colorized::-moz-range-track 
+{
+  width: 100%;
+  height: var(--row-element-height);
+  background: var(--color-slider-empty);
+  border: none;
+}
+input[type=range].colorized::-moz-range-thumb 
+{
+  border: none;
+  height: 0px;
+  width: 0px;
+  background: var(--color-slider-main);
+  z-index: 400;
+}
+input[type=range].colorized::-moz-focus-outer 
+{
+  border: 0;
 }
