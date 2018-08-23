@@ -10,9 +10,6 @@
         <button id='lMainLow'>Low</button>
         <button id='lMainHigh'>High</button>
       </div>
-      <!-- <div class="elementSlider">
-        <input type="range" min=0 max=255 step=1 value=50 id="lMainB" style="--min: 0; --max: 100; --val: 50;">
-      </div> -->
     </div>
 
     <div class="elementContainer">
@@ -22,9 +19,6 @@
         <button id='lOfficeLow'>Low</button>
         <button id='lOfficeHigh'>High</button>
       </div>
-      <!-- <div class="elementSlider">
-        <input type="range" min=0 max=255 step=1 value=50 id="lOfficeB" style="--min: 0; --max: 100; --val: 50;">
-      </div> -->
     </div>
 
     <div class="elementContainer">
@@ -34,58 +28,10 @@
         <button id='lBedLow'>Low</button>
         <button id='lBedHigh'>High</button>
       </div>
-      <!-- <div class="elementSlider">
-        <input type="range" min=0 max=255 step=1 value=50 id="lBedB" style="--min: 0; --max: 100; --val: 50;">
-      </div> -->
     </div>
 
     <script src="/socket.io/socket.io.js"></script> <!-- automatically added -->
     <script>
-      // function rangeColor(input)
-      // {
-      //   var slider = new Object();
-      //   slider.wrp = document.createElement('div');
-      //   slider.preBar = document.createElement('p');
-      //   slider.min = parseInt(input.min, 10);
-      //   slider.max = parseInt(input.max, 10);
-      //   slider.range = slider.max - slider.min;
-        
-      //   slider.getVal = function() 
-      //   {
-      //     console.log('getVal: ' + input.clientWidth)
-      //     var w = parseInt(input.clientWidth, 10),
-      //     t = ~~(w * (parseInt(input.value, 10) - slider.min) / slider.range);
-      //     return t;
-      //   };
-      //   slider.updateView = function()
-      //   {
-      //     slider.preBar.style.width = slider.getVal() + 'px';
-      //   }
-
-      //   slider.wrp.className = 'barCnt';
-      //   slider.preBar.className = 'preBar';
-      //   input.className = input.className.length ? (input.className + ' colorized') : 'colorized';
-      //   input.parentNode.replaceChild(slider.wrp, input);
-      //   slider.wrp.appendChild(input);
-      //   slider.wrp.appendChild(slider.preBar);
-      //   input.addEventListener('input', slider.updateView);
-      //   slider.preBar.style.width = slider.getVal() + 'px';
-      //   return slider;
-      // }
-
-      // var sliders = {};
-      // sliders['lMainB'] = rangeColor(document.getElementById('lMainB'))
-      // sliders['lOfficeB'] = rangeColor(document.getElementById('lOfficeB'))
-      // sliders['lBedB'] = rangeColor(document.getElementById('lBedB'))
-
-      // window.addEventListener('resize', () => 
-      // {
-      //   console.log('handle resize. ' + document.getElementById('lMainB').clientWidth);
-      //   for (var i = 0; i < sliders.length; i++) 
-      //   {
-      //     sliders[i].updateView();
-      //   }
-      // });
 
       function data(key, info)
       {
@@ -95,9 +41,6 @@
 
       var socket = io();
 
-      // var lMainSlider = document.getElementById("lMainB");
-      // var lOfficeSlider = document.getElementById("lOfficeB");
-      // var lBedSlider = document.getElementById("lBedB");
       var lMainOff = document.getElementById("lMainOff");
       var lMainLow = document.getElementById("lMainOff");
       var lMainHigh = document.getElementById("lMainOff");
@@ -108,25 +51,19 @@
       var lBedLow = document.getElementById("lBedOff");
       var lBedHigh = document.getElementById("lBedOff");
 
-      socket.on('state', function(data)
-      { 
-        // if (data.lMainB !== undefined) { lMainSlider.value = data.lMainB; sliders['lMainB'].updateView(); }
-        // if (data.lOfficeB !== undefined) { lOfficeSlider.value = data.lOfficeB; sliders['lOfficeB'].updateView(); }
-        // if (data.lBedB !== undefined) { lBedSlider.value = data.lBedB; sliders['lBedB'].updateView(); }
-      });
+      // socket.on('state', function(data)
+      // { 
+      // });
 
-      lMainOff.onclick = function() { socket.emit('set', new data('lMainOff', 0)); }
-      lMainLow.onclick = function() { socket.emit('set', new data('lMainLow', 15)); }
-      lMainHigh.onclick = function() { socket.emit('set', new data('lMainHigh', 255)); }
-      lOfficeOff.onclick = function() { socket.emit('set', new data('lOfficeOff', 0)); }
-      lOfficeLow.onclick = function() { socket.emit('set', new data('lOfficeLow', 15)); }
-      lOfficeHigh.onclick = function() { socket.emit('set', new data('lOfficeHigh', 255)); }
-      lBedOff.onclick = function() { socket.emit('set', new data('lBedOff', 0)); }
-      lBedLow.onclick = function() { socket.emit('set', new data('lBedLow', 15)); }
-      lBedHigh.onclick = function() { socket.emit('set', new data('lBedHigh', 255)); }
-      // lMainSlider.oninput = function() { socket.emit('set', new data('lMainB', this.value)); }
-      // lOfficeSlider.oninput = function() { socket.emit('set', new data('lOfficeB', this.value)); }
-      // lBedSlider.oninput = function() { socket.emit('set', new data('lBedB', this.value)); }
+      lMainOff.onclick = function() { socket.emit('set', new data('lMainB', 0)); }
+      lMainLow.onclick = function() { socket.emit('set', new data('lMainB', 15)); }
+      lMainHigh.onclick = function() { socket.emit('set', new data('lMainB', 255)); }
+      lOfficeOff.onclick = function() { socket.emit('set', new data('lOfficeB', 0)); }
+      lOfficeLow.onclick = function() { socket.emit('set', new data('lOfficeB', 15)); }
+      lOfficeHigh.onclick = function() { socket.emit('set', new data('lOfficeB', 255)); }
+      lBedOff.onclick = function() { socket.emit('set', new data('lBedB', 0)); }
+      lBedLow.onclick = function() { socket.emit('set', new data('lBedB', 15)); }
+      lBedHigh.onclick = function() { socket.emit('set', new data('lBedB', 255)); }
     </script>
     </body>
 </html>

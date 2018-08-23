@@ -4,7 +4,7 @@
   --color-main-bg: #000;
   --color-main: #666;
   --color-button-idle: #111;
-  --color-button-hover: #111;
+  --color-button-hover: #333;
   --color-button-active: #111;
   --color-slider-main: #333;
   --color-slider-empty: #111;
@@ -13,6 +13,7 @@
   --title-width: 180px;
   --padding-outer: 80px;
   --padding-inner: 40px;
+  --padding-sep: 20px;
 }
 
 * 
@@ -40,7 +41,6 @@ body
 {
   margin-bottom: var(--padding-inner);
   margin-left: var(--padding-outer);
-  margin-right: var(--padding-outer);
   display: flex;
   height: var(--slider-height);
 }
@@ -68,14 +68,15 @@ body
   padding: 0px;
   margin: 0px;
   float: left;
-  margin-right: var(--padding-inner);
+  width: 100%;
 }
 .elementContainer .elementButton button
 {
   cursor: pointer;
-  outline: none; /*mobile browser board on press*/
+  outline: none; /*mobile browser boarder on active (tapped)*/
   background-color: var(--color-button-idle);
-  width: var(--slider-height);
+  min-width: var(--slider-height);
+  width: 28%;
   height: var(--slider-height);
   border-radius: 0px;
   font-size: 32pt;
@@ -83,6 +84,7 @@ body
   border: none;
   display: inline-block;
   text-decoration: none;
+  margin-right: var(--padding-sep);
 }
 .elementContainer .elementButton button:hover
 {
@@ -91,86 +93,4 @@ body
 .elementContainer .elementButton button:active
 {
   padding:0px;
-}
-
-/*SLIDER*/
-.barCnt 
-{
-  position: relative;
-  height: 10px;
-}
-
-.barCnt .preBar 
-{
-  position: absolute;
-  background-color: var(--color-slider-main);
-  height: var(--slider-height);
-  line-height: var(--slider-height);
-  z-index: 200;
-  padding: 0px;
-  margin: 0px;
-  pointer-events: none;
-}
-
-input[type=range].colorized 
-{
-  -webkit-appearance: none;
-  width: 100%;
-  height: var(--slider-height);
-  position: absolute;
-  padding: 0px;
-  margin: 0px;
-  cursor: ew-resize;
-  z-index: 100;
-  left: 0px
-}
-
-input[type=range].colorized::-webkit-slider-runnable-track 
-{
-  height: var(--slider-height);
-  background: var(--color-slider-empty);
-  border: none;
-}
-
-input[type=range].colorized::-webkit-slider-thumb 
-{
-  -webkit-appearance: none;
-  border: none;
-  height: 0px;
-  width: 0px;
-  background: var(--color-slider-main);
-  margin-top: 0px;
-  z-index: 400;
-}
-
-input[type=range].colorized:focus 
-{
-  outline: none;
-}
-
-input[type=range].colorized:focus::-webkit-slider-runnable-track 
-{
-  background: var(--color-slider-empty);
-}
-
-input[type=range].colorized::-moz-range-track 
-{
-  width: 100%;
-  height: var(--slider-height);
-  background: var(--color-slider-empty);
-  border: none;
-}
-
-input[type=range].colorized::-moz-range-thumb 
-{
-  border: none;
-  height: 0px;
-  width: 0px;
-  background: var(--color-slider-main);
-  z-index: 400;
-}
-
-input[type=range].colorized::-moz-focus-outer 
-{
-  border: 0;
 }
