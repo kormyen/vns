@@ -42,14 +42,14 @@
       var socket = io();
 
       var lMainOff = document.getElementById("lMainOff");
-      var lMainLow = document.getElementById("lMainOff");
-      var lMainHigh = document.getElementById("lMainOff");
+      var lMainLow = document.getElementById("lMainLow");
+      var lMainHigh = document.getElementById("lMainHigh");
       var lOfficeOff = document.getElementById("lOfficeOff");
-      var lOfficeLow = document.getElementById("lOfficeOff");
-      var lOfficeHigh = document.getElementById("lOfficeOff");
+      var lOfficeLow = document.getElementById("lOfficeLow");
+      var lOfficeHigh = document.getElementById("lOfficeHigh");
       var lBedOff = document.getElementById("lBedOff");
-      var lBedLow = document.getElementById("lBedOff");
-      var lBedHigh = document.getElementById("lBedOff");
+      var lBedLow = document.getElementById("lBedLow");
+      var lBedHigh = document.getElementById("lBedHigh");
 
       // socket.on('state', function(data)
       // { 
@@ -61,7 +61,7 @@
       lOfficeOff.onclick = function() { socket.emit('set', new data('lOfficeB', 0)); }
       lOfficeLow.onclick = function() { socket.emit('set', new data('lOfficeB', 15)); }
       lOfficeHigh.onclick = function() { socket.emit('set', new data('lOfficeB', 255)); }
-      lBedOff.onclick = function() { socket.emit('set', new data('lBedB', 0)); }
+      lBedOff.onclick = function() { socket.emit('set', new data('lBedB', 0)); console.log('test'); }
       lBedLow.onclick = function() { socket.emit('set', new data('lBedB', 15)); }
       lBedHigh.onclick = function() { socket.emit('set', new data('lBedB', 255)); }
     </script>
