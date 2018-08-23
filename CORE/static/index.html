@@ -56,8 +56,9 @@
           t = ~~(w * (parseInt(input.value, 10) - slider.min) / slider.range);
           return t;
         };
-        slider.updateView = function()
+        slider.update = function(data)
         {
+          input.value = data;
           slider.preBar.style.width = slider.getVal() + 'px';
         }
         slider.wrp.className = 'barCnt';
@@ -94,10 +95,13 @@
       var socket = io();
       socket.on('state', function(data)
       { 
-        if (data.lMainB !== undefined) { sliders['lMainB'].value = data.lMainB; sliders['lMainB'].updateView(); }
-        if (data.lOfficeB !== undefined) { sliders['lOfficeB'].value = data.lOfficeB; sliders['lOfficeB'].updateView(); }
-        if (data.lBedB !== undefined) { sliders['lBedB'].value = data.lBedB; sliders['lBedB'].updateView(); }
+        if (data.lMainB !== undefined) { sliders['lMainB'].update(data.lMainB); }
+        if (data.lOfficeB !== undefined) { sliders['lOfficeB'].update(data.lOfficeB); }
+        if (data.lBedB !== undefined) { sliders['lBedB'].update(data.lBedB); }
       });
+      sliders['lMainB'].oninput = function() { socket.emit('set', new data('lMainB', this.value)); }
+      sliders['lOfficeB'].oninput = function() { socket.emit('set', new data('lOfficeB', this.value)); }
+      sliders['lBedB'].oninput = function() { socket.emit('set', new data('lBedB', this.value)); }
       lMainOff.onclick = function() { socket.emit('set', new data('lMainB', 0)); }
       lMainLow.onclick = function() { socket.emit('set', new data('lMainB', 15)); }
       lMainHigh.onclick = function() { socket.emit('set', new data('lMainB', 255)); }
