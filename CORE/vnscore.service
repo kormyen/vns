@@ -1,0 +1,10 @@
+[Unit]
+Description=VNS Core Nodejs server
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/bin/bash -c 'exec /usr/local/bin/node /home/pi/vns/CORE/server.js >> /home/pi/vnscore.log 2>&1' # log console output to log
+
+[Install]
+WantedBy=multi-user.target
