@@ -53,7 +53,8 @@ Setup VNS:
 
 Setup VNS service ([reference](https://www.paulaikman.co.uk/nodejs-services-raspberrypi/))
 - type `sudo nano /lib/systemd/system/vnscore.service`
-- paste ```
+- paste the content of [vnscore.service](vnscore.service):
+```
 [Unit]
 Description=VNS Core Nodejs server
 After=multi-user.target
