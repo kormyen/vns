@@ -22,6 +22,8 @@ ___
 
 #### Dependencies
 
+- OS: [Raspbian Lite](https://www.raspberrypi.org/downloads/raspbian/)
+- Runtime: [Node.js](https://nodejs.org/en/)
 - Runtime: [Node.js](https://nodejs.org/en/)
 - Web UI: [Express](https://expressjs.com/)
 - State sync: [Socket.io](https://socket.io/)

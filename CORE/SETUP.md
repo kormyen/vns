@@ -9,6 +9,7 @@
 - Plug in SD card, monitor, keyboard and power
 - Login with user `pi` password `raspberry`
 - type 'sudo raspi-config'
+- setup '2 Network Options/N1 Hostname' (Computer's name)
 - setup '1 Change User Password'
 - setup '2 Network Options/N2 Wi-fi'
 - enable '5 Interfacing Options/P2 SSH'
