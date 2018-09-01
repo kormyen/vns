@@ -10,11 +10,10 @@
 - Login with user `pi` password `raspberry`
 - type 'sudo raspi-config'
 - setup '1 Change User Password'
-- setup '2 Network Options/N1 Hostname'
 - setup '2 Network Options/N2 Wi-fi'
 - enable '5 Interfacing Options/P2 SSH'
 - resize '7 Advanced Options/A1 Expand Filesystem'
-- type `reboot`
+- accept rebooting after closing raspi-config
 - type `sudo apt-get update`
 - type `sudo apt-get upgrade`
 - type `ifconfig`
