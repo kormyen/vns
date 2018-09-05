@@ -7,9 +7,16 @@ Bun::Bun(int pin)
   pinMode(_pin, INPUT_PULLUP);
 }
 
+Bun::Bun(int pin, int minDelay)
+{
+  _pin = pin;
+  _minDelay = minDelay;
+  pinMode(_pin, INPUT_PULLUP);
+}
+
 bool Bun::isPressed()
 {
-  return !digitalRead(_pin);
+  return getState();
 }
 
 bool Bun::isReleased()
@@ -45,4 +52,24 @@ bool Bun::onReleased()
   // else isPressed()
   _onReleasedDone = false;
   return false;
+}
+
+bool Bun::getState()
+{
+  if (_minDelay == -1)
+  {
+    // Simple button
+    return digitalRead(_pin);
+  }
+  else
+  {
+    // Button with delay time
+    if ((millis() - _lastTime) > _minDelay)
+    {
+      // Delay time expired so update state
+      _lastTime = millis();
+      _prevState = digitalRead(_pin);
+    }
+    return _prevState;
+  }
 }
