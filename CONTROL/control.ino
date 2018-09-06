@@ -10,15 +10,15 @@ int encoderPos = 0; //this variable stores our current value of encoder position
 int oldEncPos = 0; //stores the last encoder position value so we can compare to the current reading and see if it has changed (so we know when to print to the serial monitor)
 volatile byte reading = 0; //somewhere to store the direct values we read from our interrupt pins before checking to see if we have moved a whole detent
 
-Bun _buttonOne(4, DELAY);
-Bun _buttonTwo(5, DELAY);
-Bun _buttonThree(6, DELAY);
-Bun _buttonFour(7, DELAY);
+Bun _buttonOne(10, DELAY);
+Bun _buttonTwo(8, DELAY);
+Bun _buttonThree(9, DELAY);
+Bun _buttonFour(11, DELAY);
 
-Bun _buttonFive(8, DELAY);
-Bun _buttonSix(9, DELAY);
-Bun _buttonSeven(10, DELAY);
-Bun _buttonEight(11, DELAY);
+Bun _buttonFive(4, DELAY);
+Bun _buttonSix(6, DELAY);
+Bun _buttonSeven(5, DELAY);
+Bun _buttonEight(7, DELAY);
 Bun _buttonPot(12, DELAY);
 
 void setup()
@@ -65,10 +65,17 @@ void PinB()
 
 void loop()
 {
-  if(oldEncPos != encoderPos)
+  if (oldEncPos != encoderPos)
   {
-    Serial.println(encoderPos);
-    oldEncPos = encoderPos;
+    if (oldEncPos < encoderPos)
+    {
+      Serial.println("-");
+    }
+    else
+    {
+      Serial.println("+");
+    }
+     oldEncPos = encoderPos;
   }
 
   if (_buttonOne.onPressed()) { Serial.println("1+"); }
