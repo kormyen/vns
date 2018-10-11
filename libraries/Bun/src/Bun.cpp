@@ -59,7 +59,7 @@ bool Bun::getState()
   if (_minDelay == -1)
   {
     // Simple button
-    return digitalRead(_pin);
+    return !digitalRead(_pin);
   }
   else
   {
@@ -68,7 +68,7 @@ bool Bun::getState()
     {
       // Delay time expired so update state
       _lastTime = millis();
-      _prevState = digitalRead(_pin);
+      _prevState = !digitalRead(_pin);
     }
     return _prevState;
   }
