@@ -1,10 +1,15 @@
 #include "Bun.h"
+#include "Servo.h"
 
 #define _pinRelay 2
 #define _pinMosfet 3
+#define _pinServo 10
+#define _angleOpen 90
+#define _angleClose 0
 
 Bun _buttonPower(8, 100);
 Bun _buttonStrength(9, 100);
+Servo _servo;
 
 bool _statePowerEnabled = false;
 bool _stateStrengthHigh = false;
@@ -15,25 +20,40 @@ void setup()
   
   pinMode(_pinRelay, OUTPUT);
   pinMode(_pinMosfet, OUTPUT);
+  _servo.attach(_pinServo);
+  _servo.write(_angleClose);
+  delay(500);
+  _servo.detach();
 
   Serial.println("setup");
 }
 
 void loop()
-{
+{ 
   if (_buttonPower.onPressed()) 
   {
     _statePowerEnabled = !_statePowerEnabled;
-    
-    
     if (_statePowerEnabled)
     {
+      _servo.attach(_pinServo);
+      _servo.write(_angleOpen);
+      delay(500);
+      _servo.detach();              
+      
       analogWrite(_pinMosfet, 255);
+      
       Serial.println("ON");
     }
     else
     {
       analogWrite(_pinMosfet, 0);
+      delay(1000);
+      
+      _servo.attach(_pinServo);
+      _servo.write(_angleClose);
+      delay(500);
+      _servo.detach();             
+
       Serial.println("OFF");
     }
   }
@@ -42,7 +62,6 @@ void loop()
   {
     _stateStrengthHigh = !_stateStrengthHigh;
     digitalWrite(_pinRelay, _stateStrengthHigh);
-    
     Serial.print("high: ");
     Serial.println(_stateStrengthHigh);
   }
