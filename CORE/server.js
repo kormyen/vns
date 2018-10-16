@@ -131,7 +131,7 @@ controlPort.on('open', function()
         || _lastControlKey == 'lOffice' 
         || _lastControlKey == 'lBed')
       {
-        setState(_lastControlKey+'B', valueBetween(state[_lastControlKey+'B']+10), BMIN, BMAX);
+        setState(_lastControlKey+'B', valueBetween(state[_lastControlKey+'B']+10, BMIN, BMAX));
       }
     }
     else if (response.toString().trim() == '-')
@@ -140,7 +140,7 @@ controlPort.on('open', function()
         || _lastControlKey == 'lOffice' 
         || _lastControlKey == 'lBed')
       {
-        setState(_lastControlKey+'B', valueBetween(state[_lastControlKey+'B']-10), BMIN, BMAX);
+        setState(_lastControlKey+'B', valueBetween(state[_lastControlKey+'B']-10, BMIN, BMAX));
       }
     }
   });
