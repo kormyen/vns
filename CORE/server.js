@@ -6,6 +6,8 @@ var io = require('socket.io')(http);
 
 const PDUREADY = "y";
 const PDUFAIL = "n";
+const BMIN = 0;
+const BMAX = 255;
 
 var _pduReady = true;
 var _prevPduReqSent = false;
@@ -129,7 +131,7 @@ controlPort.on('open', function()
         || _lastControlKey == 'lOffice' 
         || _lastControlKey == 'lBed')
       {
-        setState(_lastControlKey+'B', state[_lastControlKey+'B']+10);
+        setState(_lastControlKey+'B', valueBetween(state[_lastControlKey+'B']+10), BMIN, BMAX);
       }
     }
     else if (response.toString().trim() == '-')
@@ -138,8 +140,14 @@ controlPort.on('open', function()
         || _lastControlKey == 'lOffice' 
         || _lastControlKey == 'lBed')
       {
-        setState(_lastControlKey+'B', state[_lastControlKey+'B']-10);
+        setState(_lastControlKey+'B', valueBetween(state[_lastControlKey+'B']-10), BMIN, BMAX);
       }
     }
   });
 });
+
+// HELPER
+valueBetween = function(value, min, max)
+{
+  return (Math.min(max, Math.max(min, value)));
+}
