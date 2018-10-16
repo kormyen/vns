@@ -69,11 +69,12 @@ pduPort.on('open', function()
   });
 });
 
-setState = function(key, data)
+setState = function(key, value)
 {
-  _currentKey = data.key;
-  _currentInfo = data.info;
-  state[data.key] = data.info;
+  console.log('setState: ' + key + ' to: ' + value);
+  _currentKey = key;
+  _currentInfo = value;
+  state[key] = value;
   sendPduRequest();
 }
 
@@ -105,7 +106,6 @@ controlPort.on('open', function()
 {
   controlPort.on('data', function(response)
   {
-    console.log('control input: ' + response.toString().trim());
     if (response.toString().trim() == '1+')
     {
       setState('lMain', !state.lMain);
