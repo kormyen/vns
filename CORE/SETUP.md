@@ -48,8 +48,11 @@ Setup VNS:
 - type `git clone git@github.com:kormyen/vns.git` to download repo
 - type `cd vns/CORE` to move into node project
 - type `npm install` to install node dependencies
+- type `ls -l /dev/tty*` to list dev paths of connected Arduino devices. Eg: '/dev/ttyACM0', '/dev/ttyUSB0'. You can disconnect the devices, run the command, connect them again, run the command again and see what new dev paths show up
+- edit `server.js` to reflect your arduino PDU and CONTROL dev paths
 - type `npm start` to run VNS
-- In a web browser go to `your-pi-IP-address:3000` to access VNS web UI
+- in a web browser go to `your-pi-IP-address:3000` to access VNS web UI and check it works
+- stop node
 
 Setup VNS service ([reference](https://www.paulaikman.co.uk/nodejs-services-raspberrypi/))
 - type `sudo nano /lib/systemd/system/vnscore.service`
@@ -70,8 +73,13 @@ WantedBy=multi-user.target
 - type `yes` to to save
 - type `sudo chmod 644 /lib/systemd/system/vnscore.service` to allow it to be run
 - type `sudo systemctl daemon-reload` to reload service list
-- type `sudo systemctl enable vnscore.service` to enable vnscore service
-- type `sudo systemctl start vnscore.service` to start vnscore service
-- type `sudo systemctl status vnscore.service` to check vnscore service is running
+- type `sudo systemctl enable vnscore.service` to automatically start vnscore service on boot
+- type `sudo systemctl start vnscore.service` to start vnscore service now
+- type `sudo systemctl status vnscore.service` to check vnscore service is running now
 
-VNS CORE should now automatically run when the pi boots.
+VNS CORE will be running and should now automatically run when the pi boots!
+
+Other VNS service commands:
+- type `sudo systemctl disable vnscore.service` to disable starting vnscore service on boot
+- type `sudo systemctl stop vnscore.service` to stop vnscore service now
+- type `sudo systemctl restart vnscore.service` to restart vnscore service now

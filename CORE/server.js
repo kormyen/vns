@@ -4,10 +4,13 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+const PDUREADY = "y";
+const PDUFAIL = "n";
+
 var _pduReady = true;
-var _lastSent = false;
+var _prevPduReqSent = false;
 var _currentKey = '';
-var _currentValue = '';
+var _currentInfo = '';
 
 var state = 
 {
@@ -25,36 +28,7 @@ http.listen(3000, '0.0.0.0', function(){
   console.log('Listening on port 3000');
 });
 
-// SERIAL
-var receivedData = "";
-var port = new serialport('/dev/ttyACM0',//'COM6', 
-{
-  baudRate: 9600,
-});
-port.on('error', function(err)
-{
-  console.log('Error: ', err.message);
-})
-port.on('open', function()
-{
-  port.on('data', function(response)
-  {
-    if (response.toString().trim() == "y")
-    {
-      _pduReady = true;
-      if (_lastSent == false)
-      {
-        sendCurrentRequest();
-      }
-    }
-    else if (response.toString().trim() == "n")
-    {
-      console.log('BROKE');
-    }
-  });
-});
-
-// SOCKETIO
+// WEB STATE SYNC
 io.on('connection', function(socket)
 {  
   console.log(socket.request.connection.remoteAddress + ' - ' + socket.id + ' - join');
@@ -69,24 +43,67 @@ io.on('connection', function(socket)
     _currentKey = data.key;
     _currentInfo = data.info;
     state[data.key] = data.info;
-    if (_pduReady)
+    sendPduRequest();
+  });
+});
+
+// PDU
+var pduPort = new serialport('/dev/ttyACM0', { baudRate: 9600 });
+pduPort.on('error', function(err)
+{
+  console.log('Error: ', err.message);
+})
+pduPort.on('open', function()
+{
+  pduPort.on('data', function(response)
+  {
+    if (response.toString().trim() == PDUREADY)
     {
-      sendCurrentRequest();
+      _pduReady = true;
+      if (!_prevPduReqSent)
+      {
+        sendPduRequest();
+      }
     }
-    else
+    else if (response.toString().trim() == PDUFAIL)
     {
-      _lastSent = false;
+      console.log('BROKE');
     }
   });
 });
 
-sendCurrentRequest = function()
+runPduRequest = function()
 {
-  _pduReady = false;
-  port.write(_currentKey + ' = ' + _currentInfo + ';');
-  _lastSent = true;
+  if (_pduReady)
+  {
+    _pduReady = false;
+    pduPort.write(_currentKey + ' = ' + _currentInfo + ';');
+    _prevPduReqSent = true;
 
-  var tempState = {};
-  tempState[_currentKey] = _currentInfo;
-  io.sockets.emit('state', tempState);
+    var tempState = {};
+    tempState[_currentKey] = _currentInfo;
+    io.sockets.emit('state', tempState);
+  }
+  else
+  {
+    _prevPduReqSent = false;
+  }  
 }
+
+// CONTROL
+var controlPort = new serialport('/dev/ttyUSB0', { baudRate: 9600 });
+controlPort.on('error', function(err)
+{
+  console.log('Error: ', err.message);
+})
+controlPort.on('open', function()
+{
+  controlPort.on('data', function(response)
+  {
+    console.log('control input: ' + response.toString().trim());
+    // if (response.toString().trim() == '1+')
+    // {
+      
+    // }
+  });
+});
