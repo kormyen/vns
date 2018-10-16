@@ -129,7 +129,7 @@ controlPort.on('open', function()
         || _lastControlKey == 'lOffice' 
         || _lastControlKey == 'lBed')
       {
-        setState(_lastControlKey+'B', state.[_lastControlKey+'B']+10);
+        setState(_lastControlKey+'B', state[_lastControlKey+'B']+10);
       }
     }
     else if (response.toString().trim() == '-')
@@ -138,7 +138,7 @@ controlPort.on('open', function()
         || _lastControlKey == 'lOffice' 
         || _lastControlKey == 'lBed')
       {
-        setState(_lastControlKey+'B', state.[_lastControlKey+'B']-10);
+        setState(_lastControlKey+'B', state[_lastControlKey+'B']-10);
       }
     }
   });
