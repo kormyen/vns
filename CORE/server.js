@@ -40,10 +40,7 @@ io.on('connection', function(socket)
   });
   socket.on('set', function(data)
   {
-    _currentKey = data.key;
-    _currentInfo = data.info;
-    state[data.key] = data.info;
-    sendPduRequest();
+    setState(data.key, data.info);
   });
 });
 
@@ -72,7 +69,15 @@ pduPort.on('open', function()
   });
 });
 
-runPduRequest = function()
+setState = function(key, data)
+{
+  _currentKey = data.key;
+  _currentInfo = data.info;
+  state[data.key] = data.info;
+  sendPduRequest();
+}
+
+sendPduRequest = function()
 {
   if (_pduReady)
   {
@@ -101,9 +106,9 @@ controlPort.on('open', function()
   controlPort.on('data', function(response)
   {
     console.log('control input: ' + response.toString().trim());
-    // if (response.toString().trim() == '1+')
-    // {
-      
-    // }
+    if (response.toString().trim() == '1+')
+    {
+      setState('lMain', !state.lMain);
+    }
   });
 });
