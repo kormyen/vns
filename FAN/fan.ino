@@ -1,14 +1,14 @@
 #include "Bun.h"
 #include "Servo.h"
 
-#define _pinRelay 2
-#define _pinMosfet 3
+#define _pinRelay 8
+#define _pinMosfet 9
 #define _pinServo 10
-#define _angleOpen 90
+#define _angleOpen 120
 #define _angleClose 0
 
-Bun _buttonPower(8, 100);
-Bun _buttonStrength(9, 100);
+Bun _buttonPower(2, 100);
+Bun _buttonStrength(3, 100);
 Servo _servo;
 
 bool _statePowerEnabled = false;
