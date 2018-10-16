@@ -22,6 +22,8 @@ var state =
   lBedB:255,
 };
 
+var _lastControlKey = '';
+
 // WEB
 app.use(express.static(__dirname + '/static'));
 http.listen(3000, '0.0.0.0', function(){
@@ -108,7 +110,36 @@ controlPort.on('open', function()
   {
     if (response.toString().trim() == '1+')
     {
-      setState('lMain', !state.lMain);
+      _lastControlKey = 'lMain';
+      setState(_lastControlKey, !state.lMain);
+    }
+    else if (response.toString().trim() == '2+')
+    {
+      _lastControlKey = 'lBed';
+      setState(_lastControlKey, !state.lBed);
+    }
+    else if (response.toString().trim() == '3+')
+    {
+      _lastControlKey = 'lOffice';
+      setState(_lastControlKey, !state.lBed);
+    }
+    else if (response.toString().trim() == '+')
+    {
+      if (_lastControlKey == 'lMain' 
+        || _lastControlKey == 'lOffice' 
+        || _lastControlKey == 'lBed')
+      {
+        setState(_lastControlKey+'B', state.[_lastControlKey+'B']+10);
+      }
+    }
+    else if (response.toString().trim() == '-')
+    {
+      if (_lastControlKey == 'lMain'
+        || _lastControlKey == 'lOffice' 
+        || _lastControlKey == 'lBed')
+      {
+        setState(_lastControlKey+'B', state.[_lastControlKey+'B']-10);
+      }
     }
   });
 });
