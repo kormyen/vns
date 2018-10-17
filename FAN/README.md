@@ -1,6 +1,6 @@
 **VNS FAN**
 
-Prototype phase.
+Prototype phase. Intended to automaticly enable/disable based on internal temperature.
 
 - air sealed fan box
 - outlet/inlet to outside
@@ -10,3 +10,5 @@ Prototype phase.
 - fan direction control ideal
 
 <img src='000.gif'>
+
+See [airnotes.txt](airnotes.txt) for calculations/notes.
