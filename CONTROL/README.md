@@ -1,8 +1,8 @@
 **VNS CONTROL**
 
-Arduino Nano connected to [CORE](https://github.com/kormyen/VNS/tree/master/CORE) via USB
+Arduino Nano connected to [CORE](../CORE) via USB
 
-Sends button and potentiometer inputs to [CORE](https://github.com/kormyen/VNS/tree/master/CORE)
+Sends button and potentiometer inputs to [CORE](../CORE)
 
 <img src='https://raw.githubusercontent.com/kormyen/VNS/master/CONTROL/000.jpg'>
 <img src='https://raw.githubusercontent.com/kormyen/VNS/master/CONTROL/001.jpg'>
