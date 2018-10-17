@@ -12,4 +12,12 @@
 
 [<img src='https://raw.githubusercontent.com/kormyen/VNS/master/CONTROL/000.jpg' width="300"/>](/CONTROL)
 
-Inspired by [ariadne-io (diy smart sailboat)](https://github.com/gwilken/ariadne-io)
+#### Inspiration
+
+- [ariadne-io (diy smart sailboat)](https://github.com/gwilken/ariadne-io)
+
+---
+
+Hamish MacDonald
+
+**[Twitter](https://twitter.com/kormyen)** &middot; **[Home](https://kor.nz)**
