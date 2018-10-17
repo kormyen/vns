@@ -2,7 +2,7 @@
 
 Node.js app running on Raspberry Pi Zero W
 
-Receives input from web UI and/or [CONTROL](https://github.com/kormyen/VNS/tree/master/CONTROL) panel(s), sends commands to [POWER](https://github.com/kormyen/VNS/tree/master/POWER)
+Receives input from web UI and/or [CONTROL](../CONTROL) panel(s), sends commands to [POWER](../POWER)
 
 <img src='000.jpg'>
 
